@@ -1,0 +1,191 @@
+.active {
+  background-color: #7babb1;
+  color: #000;
+}
+
+.active:hover {
+  background-color: #7babb1;
+}
+
+.credit {
+	position: fixed;
+	bottom: 0;
+	margin: auto;
+	width: 100%;
+}
+
+.ticket {
+	margin: 1% 5%;
+	width: 20%;
+	display: inline-block;
+	position: relative;
+	border: 5px solid black;
+}
+
+.image_ticket {
+	opacity: 0.4;
+	width: 100%;
+}
+
+.texte_ticket {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: xx-large;
+  color: black;
+  width: 100%
+}
+
+.contacts {
+	margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    font-size: xx-large;
+    margin-top: 50px;
+	display: grid;
+}
+
+.login {
+    font-size: 30px;
+    margin-top: 20px;
+}
+
+.pass{
+    font-size: 30px;
+    margin-top: 25px;
+}
+
+.co{
+    margin-top: 40px;
+}
+
+.contacte {
+	position: fixed;
+	top: 45%;
+	left: 35%;
+	display: inline-block;
+	font-size: 3em;
+	color: black;
+	text-decoration: none;
+	border: 10px solid black;
+}
+
+.center {
+	margin: 0 auto;
+}
+
+.barre {
+  display: block;
+  color: #bfeff5;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.barre:hover {
+  background-color: #111;
+}
+
+.categories {
+	display: block;
+}
+
+#textes {
+  text-align: initial;
+  position: relative;
+  left: 2em;
+}
+
+#valeurs {
+  position: relative;
+  top: -9em;
+  left: 10em;
+}
+
+input[type=text], input[type=password], input[type=email], input[type=number], input[type=url] {
+  width: 48em;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid gray;
+  border-radius: 4px;
+}
+
+input[type=button], input[type=submit] {
+  background-color: #4CAF50;
+  border: none;
+  padding: 16px 32px;
+  text-decoration: none;
+  cursor: pointer;
+  position: inherit;
+  margin: 2em auto;
+}
+
+input {
+  display: block;
+  margin: 0 auto;
+}
+
+button {
+	width: 500px;
+	height: 75px;
+	border: 2px solid #000;
+	border-radius: 40px;
+	font-size: 30px;
+	margin-top: 10px;
+	background-color: #bfeff5;
+}
+
+label {
+  display: block;
+}
+
+h1 {
+    border: 3px solid #000;
+    display: inline-block;
+	font-size: 40px;
+	padding: 20px;
+}
+
+h2 {
+	border: 5px solid #000;
+	width: 50%;
+	height: 17%;
+	font-size: 2em;
+	text-align: center;
+	margin: 10 auto;
+}
+
+h4 {
+	text-decoration: underline;
+}
+
+p {
+	font-size: 25px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #bfeff5;
+	text-align: center;
+}
+
+section {
+	margin-top: 4em;
+}
+
+li {
+  float: left;
+}

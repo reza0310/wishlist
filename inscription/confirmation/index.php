@@ -28,17 +28,17 @@ if ($result == null) {
 	);
 	$sql = "INSERT INTO comptes (nom, mail, hash) VALUES ('{$nom}', '{$mail}', '{$hash}')"; 	
 	if ($conn->query($sql) === TRUE) {
-		mail($mail, "Votre mot de passe", "Bonjour! 
-		
-		Vous venez de créer une liste sur mon site web seulement, les tests de sécurité n'étant pas terminés, je vous ai créé un mot de passe expréssément pour l'occasion. 
-		Je n'y ai bien sûr pas accès ni personne en soit et bien sûr je ne garde qu'un hash mais on sait jamais on sait jamais...
-		Je vous invite aussi à régulièrement sauvegarder votre liste à l'aide de la wayback machine (https://archive.org/web/) ou de screen shots d'autant plus que le site n'étant pas du tout terminé, nous ne sommes pas à l'abri d'une mise à jour destructive (Auquel ca vous seriez prévenus par mail mais pour peu que ça finisse dans vos spams...).
-		
-		Votre mot de passe est donc ".$mdp.". 
-		
-		Cordialement, 
-		
-		reza0310.", $headers);
+		mail($mail, "Votre mot de passe", "Bonjour!\n" .
+		"\n" .
+		"Vous venez de créer une liste sur mon site web seulement, les tests de sécurité n'étant pas terminés, je vous ai créé un mot de passe expréssément pour l'occasion.\n" .
+		"Je n'y ai bien sûr pas accès ni personne en soit et bien sûr je ne garde qu'un hash mais on sait jamais on sait jamais...\n" .
+		"Je vous invite aussi à régulièrement sauvegarder votre liste à l'aide de la wayback machine (https://archive.org/web/) ou de screen shots d'autant plus que le site n'étant pas du tout terminé, nous ne sommes pas à l'abri d'une mise à jour destructive (Auquel ca vous seriez prévenus par mail mais pour peu que ça finisse dans vos spams...).\n" .
+		"\n" .
+		"Votre mot de passe est donc ".$mdp.". \n" .
+		"\n" .
+		"Cordialement,\n" .
+		"\n" .
+		"reza0310.", $headers);
 		echo(str_replace("dos", "active", str_replace("%php%", file_get_contents("page.html"), file_get_contents("header.html", true))));
 	} else {
 		echo "Request error: " . $conn->error;

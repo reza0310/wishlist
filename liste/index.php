@@ -1,6 +1,8 @@
 <?php
 set_include_path($_SERVER['DOCUMENT_ROOT']."/wishlist");
 include 'mdp.php';
+include 'utils.php';
+
 $nom = $_GET["nom"];
 
 $con=mysqli_connect($servername,$username,$password,$dbname);
@@ -32,10 +34,10 @@ foreach ($priorites as $pri) {
 			$image = $colonne[3];
 		}
 		$page .= "<div class='ticket'>";
-		$page .= "<a href='".$colonne[2]."'>";
-		$page .= "<img src='".$image."' alt='L image du voeux' class='image_ticket'>";
-		$page .= "<div class='texte_ticket'>".$nom."<br>";
-		$page .= $colonne[4]."€";
+		$page .= "<a href='".clearhtml($colonne[2])."'>";
+		$page .= "<img src='".clearhtml($image)."' alt='L image du voeux' class='image_ticket'>";
+		$page .= "<div class='texte_ticket'>".clearhtml($nom)."<br>";
+		$page .= clearhtml($colonne[4])."€";
 		$page .= "</div></a></div>";
 	}
 	mysqli_next_result($con);

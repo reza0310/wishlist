@@ -1,6 +1,7 @@
 <?php
 set_include_path($_SERVER['DOCUMENT_ROOT']."/wishlist");
 include 'mdp.php';
+include 'utils.php';
 
 session_start();
 if (isset($_SESSION["nom"]) && isset($_SESSION["mdp"])) {
@@ -49,10 +50,10 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 				$image = $colonne[3];
 			}
 			$page .= "<div class='ticket'>";
-			$page .= "<a href='".$colonne[2]."'>";
-			$page .= "<img src='".$image."' alt='L image du voeux' class='image_ticket'>";
-			$page .= "<div class='texte_ticket'>".$nom."<br>";
-			$page .= $colonne[4]."€";
+			$page .= "<a href='".clearhtml($colonne[2])."'>";
+			$page .= "<img src='".clearhtml($image)."' alt='L image du voeux' class='image_ticket'>";
+			$page .= "<div class='texte_ticket'>".clearhtml($nom)."<br>";
+			$page .= clearhtml($colonne[4])."€";
 			$page .= "<form action='supprimer.php' method='post'><input type='hidden' name='id' value='$colonne[0]'><input type='submit' value='SUPPRIMER'></form>";
 			$page .= "</div></a></div>";
 		}

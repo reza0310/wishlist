@@ -5,6 +5,7 @@ include 'mdp.php';
 session_start();
 $nom = $_SESSION["nom"];
 $mdp = $_SESSION["mdp"];
+$_SESSION["reprise"] = true;
 $id = $_POST["id"];
 
 $con=mysqli_connect($servername,$username,$password,$dbname);

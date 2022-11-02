@@ -4,7 +4,7 @@ include 'mdp.php';
 include 'utils.php';
 
 session_start();
-if (isset($_SESSION["nom"]) && isset($_SESSION["mdp"])) {
+if (isset($_SESSION["reprise"]) && $_SESSION["reprise"] == true) {
 	$nom = $_SESSION["nom"];
 	$mdp = $_SESSION["mdp"];
 } else {
@@ -13,6 +13,7 @@ if (isset($_SESSION["nom"]) && isset($_SESSION["mdp"])) {
 	$_SESSION["nom"] = $nom;
 	$_SESSION["mdp"] = $mdp;
 }
+$_SESSION["reprise"] = false;
 
 $con=mysqli_connect($servername,$username,$password,$dbname);
 if (mysqli_connect_errno()) {

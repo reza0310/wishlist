@@ -5,6 +5,7 @@ include 'mdp.php';
 session_start();
 $nom = $_SESSION["nom"];
 $mdp = $_SESSION["mdp"];
+$_SESSION["reprise"] = true;
 $nom_p = $_POST["nom"];
 $lien_p = $_POST["lien"];
 $image_p = $_POST["image"];

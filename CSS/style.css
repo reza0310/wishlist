@@ -37,34 +37,7 @@
   width: 100%
 }
 
-.contacts {
-	margin-left: auto;
-    margin-right: auto;
-    width: 70%;
-    font-size: xx-large;
-    margin-top: 50px;
-	display: grid;
-}
-
-.login {
-    font-size: 30px;
-    margin-top: 20px;
-}
-
-.pass{
-    font-size: 30px;
-    margin-top: 25px;
-}
-
-.co{
-    margin-top: 40px;
-}
-
 .contacte {
-	position: fixed;
-	top: 45%;
-	left: 35%;
-	display: inline-block;
 	font-size: 3em;
 	color: black;
 	text-decoration: none;
@@ -72,7 +45,12 @@
 }
 
 .center {
-	margin: 0 auto;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .barre {
@@ -89,18 +67,6 @@
 
 .categories {
 	display: block;
-}
-
-#textes {
-  text-align: initial;
-  position: relative;
-  left: 2em;
-}
-
-#valeurs {
-  position: relative;
-  top: -9em;
-  left: 10em;
 }
 
 input[type=text], input[type=password], input[type=email], input[type=number], input[type=url] {
@@ -136,10 +102,6 @@ button {
 	background-color: #bfeff5;
 }
 
-label {
-  display: block;
-}
-
 h1 {
     border: 3px solid #000;
     display: inline-block;
@@ -164,17 +126,6 @@ p {
 	font-size: 25px;
 }
 
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-
 body {
 	margin: 0;
 	padding: 0;
@@ -186,6 +137,46 @@ section {
 	margin-top: 4em;
 }
 
-li {
-  float: left;
+@media (orientation : portrait) {
+	.navbar {
+	  list-style-type: none;
+	  margin: 0;
+	  padding: 0;
+	  overflow: hidden;
+	  background-color: #333;
+	  position: fixed;
+	  top: 0;
+	  height: 100%;
+	}
+
+	.innavbar {
+	}
+
+	.oinnavbar {
+	  position: absolute;
+	  bottom: 0;
+	  left: 10%;
+	}
 }
+
+@media (orientation : landscape) {
+	.navbar {
+	  list-style-type: none;
+	  margin: 0;
+	  padding: 0;
+	  overflow: hidden;
+	  background-color: #333;
+	  position: fixed;
+	  top: 0;
+	  width: 100%;
+	}
+
+	.innavbar {
+	  float: left;
+	}
+
+	.oinnavbar {
+	  float: right;
+	}
+}
+	

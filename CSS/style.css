@@ -161,6 +161,25 @@ section {
 	  bottom: 0;
 	  left: 10%;
 	}
+	
+	.vc {
+		margin-top: 5%;
+		margin-bottom: 2%;
+	}
+
+	#hider {
+		height: 4.5%;
+	}
+
+	#shower {
+		position: absolute;
+		left: 0;
+		top: 0;
+		background-color: #333;
+		height: 4.5%;
+		display: none;
+		width: 25%;
+	}
 }
 
 @media (orientation : landscape) {
@@ -181,6 +200,24 @@ section {
 
 	.oinnavbar {
 	  float: right;
+	}
+	
+	.vc {
+		margin-top:35%;
+		margin-bottom:25%;
+	}
+
+	#hider {
+		width: 3%;
+	}
+
+	#shower {
+		position: absolute;
+		left: 0;
+		top: 0;
+		background-color: #333;
+		width: 3%;
+		display: none;
 	}
 }
 	

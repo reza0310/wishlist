@@ -3,9 +3,6 @@ set_include_path($_SERVER['DOCUMENT_ROOT']."/wishlist");
 include 'mdp.php';
 include 'utils.php';
 
-ini_set('display_error', 1);
-mysqli_report(MYSQLI_REPORT_ALL);
-
 $nom = $_GET["nom"];
 
 $con=mysqli_connect($servername,$username,$password,$dbname);

@@ -62,6 +62,8 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 				$page .= "<a href='".checkurl(clearhtml($colonne[2]))."'>";
 				$page .= "<img src='".$image."' alt='L image du voeux' class='image_ticket'>";
 				$page .= "<div class='texte_ticket'>".clearhtml($nom)."<br>";
+				$page .= "<form action='monter.php' method='post'><input type='hidden' name='id' value='$colonne[0]'><input type='submit' value='MONTER EN PRIORITE'></form>";
+				$page .= "<form action='baisser.php' method='post'><input type='hidden' name='id' value='$colonne[0]'><input type='submit' value='BAISSER EN PRIORITE'></form>";
 				$page .= "<form action='supprimer.php' method='post'><input type='hidden' name='id' value='$colonne[0]'><input type='submit' value='SUPPRIMER'></form>";
 				$page .= $prix;
 				$page .= "</div></a></div>";

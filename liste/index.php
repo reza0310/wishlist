@@ -36,11 +36,16 @@ foreach ($priorites as $pri) {
 			} else {
 				$image = $colonne[3];
 			}
+			if ($colonne[4] < 0) {
+				$prix = "Prix inconnu";
+			} else {
+				$prix = clearhtml($colonne[4])."€";
+			}
 			$page .= "<div class='ticket'>";
-			$page .= "<a href='".clearhtml($colonne[2])."'>";
-			$page .= "<img src='".clearhtml($image)."' alt='L image du voeux' class='image_ticket'>";
+			$page .= "<a href='".checkurl(clearhtml($colonne[2]))."'>";
+			$page .= "<img src='".checkurl(clearhtml($image))."' alt='L image du voeux' class='image_ticket'>";
 			$page .= "<div class='texte_ticket'>".clearhtml($nom)."<br>";
-			$page .= clearhtml($colonne[4])."€";
+			$page .= $prix;
 			$page .= "</div></a></div>";
 		}
 	}

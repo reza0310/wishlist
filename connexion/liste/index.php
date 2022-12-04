@@ -53,11 +53,16 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 				} else {
 					$image = $colonne[3];
 				}
+				if ($colonne[4] < 0) {
+					$prix = "Prix inconnu";
+				} else {
+					$prix = clearhtml($colonne[4])."€";
+				}
 				$page .= "<div class='ticket'>";
-				$page .= "<a href='".clearhtml($colonne[2])."'>";
-				$page .= "<img src='".clearhtml($image)."' alt='L image du voeux' class='image_ticket'>";
+				$page .= "<a href='".checkurl(clearhtml($colonne[2]))."'>";
+				$page .= "<img src='".checkurl(clearhtml($image))."' alt='L image du voeux' class='image_ticket'>";
 				$page .= "<div class='texte_ticket'>".clearhtml($nom)."<br>";
-				$page .= clearhtml($colonne[4])."€";
+				$page .= $prix;
 				$page .= "<form action='supprimer.php' method='post'><input type='hidden' name='id' value='$colonne[0]'><input type='submit' value='SUPPRIMER'></form>";
 				$page .= "</div></a></div>";
 			}
@@ -89,7 +94,11 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 					<td>
 					<label for='prix'>Prix total:</label>
 					</td><td> 
-					<input type='number' step='0.01' min='0' id='prix' name='prix' required>
+					<input type='number' step='0.01' min='-1' id='prix' name='prix' placeholder='En €' required>
+					</td>
+				</tr><tr>
+					<td colspan='2'>
+					<label for='prix'>Prix en euros, indiquer -1 pour un prix inconnu.</label>
 					</td>
 				</tr><tr>
 					<td>

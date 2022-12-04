@@ -4,7 +4,7 @@ function clearhtml($str) {
 }
 
 function checkurl($str) {
-	return clearmulti($str, array("'", "%27", "\\", "%5C", '"', "%22", " ", "%20"));
+	return "http".substr(clearmulti($str, array("'", "%27", "\\", "%5C", '"', "%22", " ", "%20")), 4);
 }
 
 function clearmulti($str, $liste) {

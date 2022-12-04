@@ -19,14 +19,26 @@ if (mysqli_connect_errno()) {
   exit();
 }
 
-$query = "SELECT * FROM comptes WHERE nom='$nom'";
-$result = $con->query($query);
+$query = $con->prepare("SELECT * FROM comptes WHERE nom=?");
+$query->bind_param("s", $nom);
+$query->execute();
+$result = $query->get_result();
+$query->close();
 $row = $result->fetch_array(MYSQLI_NUM);
 if ($row != null && password_verify($mdp, $row[2])) {
-	$query = "INSERT INTO voeux (nom, lien, image, prix, quantite, priorite, proprietaire) VALUES ('$nom_p', '$lien_p', '$image_p', '$prix_p', '$quantite_p', '$priorite_p', '$nom')";
-	$result = mysqli_query($con, $query);
+	$query = $con->prepare("INSERT INTO voeux (nom, lien, image, prix, quantite, priorite, proprietaire) VALUES (?, ?, ?, ?, ?, ?, ?)");
+	$query->bind_param("sssdiss", $nom_p, $lien_p, $image_p, $prix_p, $quantite_p, $priorite_p, $nom);
+	if (! $query) {
+		echo(str_replace("tres", "active", str_replace("%php%", "<h1 style='color: red;'>Erreur: ".$con->error."</h1>", file_get_contents("header.html", true))));
+		die();
+	}
+	if (! $query->execute()) {
+		echo(str_replace("tres", "active", str_replace("%php%", "<h1 style='color: red;'>Erreur: ".$con->error."</h1>", file_get_contents("header.html", true))));
+		die();
+	}
+	$query->close();
 }
 
-mysqli_close($con);
+$con->close();
 header( "Location: /wishlist/connexion/liste" );
 ?>

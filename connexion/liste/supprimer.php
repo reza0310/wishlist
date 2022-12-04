@@ -14,19 +14,27 @@ if (mysqli_connect_errno()) {
   exit();
 }
 
-$query = "SELECT * FROM comptes WHERE nom='$nom'";
-$result = $con->query($query);
+$query = $con->prepare("SELECT * FROM comptes WHERE nom=?");
+$query->bind_param("s", $nom);
+$query->execute();
+$result = $query->get_result();
+$query->close();
 $row = $result->fetch_array(MYSQLI_NUM);
 if ($row != null && password_verify($mdp, $row[2])) {
-	$query = "SELECT * FROM voeux WHERE id='$id'";
-	$result = mysqli_query($con, $query);
+	$query = $con->prepare("SELECT * FROM voeux WHERE id=?");
+	$query->bind_param("i", $id);
+	$query->execute();
+	$result = $query->get_result();
+	$query->close();
 	$obj = mysqli_fetch_assoc($result);
 	if ($obj != null && $obj["proprietaire"] == $nom) {
-		$query = "DELETE FROM voeux WHERE id='$id'";
-		$result = mysqli_query($con, $query);
+		$query = $con->prepare("DELETE FROM voeux WHERE id=?");
+		$query->bind_param("i", $id);
+		$query->execute();
+		$query->close();
 	}
 }
 
-mysqli_close($con);
+$con->close();
 header( "Location: /wishlist/connexion/liste" );
 ?>

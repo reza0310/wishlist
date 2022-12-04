@@ -21,23 +21,25 @@ if (mysqli_connect_errno()) {
   exit();
 }
 
-$query = "SELECT * FROM comptes WHERE nom='$nom'";
-$result = $con->query($query);
+$query = $con->prepare("SELECT * FROM comptes WHERE nom=?");
+$query->bind_param("s", $nom);
+$query->execute();
+$result = $query->get_result();
+$query->close();
 $row = $result->fetch_array(MYSQLI_NUM);
 
 if ($row == null || !password_verify($mdp, $row[2])) {
 	echo(str_replace("tres", "active", str_replace("%php%", "<h1>Nom ou mot de passe invalide</h1>", file_get_contents("header.html", true))));
 } else {
 	$page = "";
-	$query = "";
 	$priorites = array('HAUTE', 'MOYENNE PLUS', 'MOYENNE MOINS', 'BASSE');
 	foreach ($priorites as $pri) {
-		$query .= "SELECT * FROM voeux WHERE proprietaire='$nom' AND priorite='$pri';";
-	}
-	substr($query, 0, -1);
-	mysqli_multi_query($con, $query);
-	foreach ($priorites as $pri) {
-		$result = mysqli_store_result($con);
+		$query = $con->prepare("SELECT * FROM voeux WHERE proprietaire=? AND priorite=?");
+		$query->bind_param("ss", $nom, $pri);
+		$query->execute();
+		$result = $query->get_result();
+		$query->close();
+		
 		$page .= "<h1 class='categories'>Priorité ".strtolower($pri).":</h1>";
 		while ($colonne = mysqli_fetch_array($result)) {
 			if ($colonne[5] != 1) {
@@ -58,12 +60,11 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 			$page .= "<form action='supprimer.php' method='post'><input type='hidden' name='id' value='$colonne[0]'><input type='submit' value='SUPPRIMER'></form>";
 			$page .= "</div></a></div>";
 		}
-		mysqli_next_result($con);
 	}
 	
 	$page .= "<h1 class='categories'>Ajouter un voeu:</h1>
 			<form action='ajouter.php' method='post'>
-			<table class='center'>
+			<table class='horizontal-center'>
 				<tr>
 					<td>
 					<label for='nom'>Nom:</label>
@@ -86,13 +87,13 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 					<td>
 					<label for='prix'>Prix total:</label>
 					</td><td> 
-					<input type='number' id='prix' name='prix' required>
+					<input type='number' step='0.01' min='0' id='prix' name='prix' required>
 					</td>
 				</tr><tr>
 					<td>
 					<label for='quantite'>Quantité:</label>
 					</td><td> 
-					<input type='number' id='quantite' name='quantite' value='1'>
+					<input type='number' min='0' id='quantite' name='quantite' value='1'>
 					</td>
 				</tr><tr>
 					<td>
@@ -111,5 +112,5 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 	echo(str_replace("tres", "active", str_replace("%php%", $page, file_get_contents("header.html", true))));
 }
 
-mysqli_close($con);
+$con->close();
 ?>

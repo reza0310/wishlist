@@ -12,15 +12,14 @@ if (mysqli_connect_errno()) {
 }
 
 $page = "";
-$query = "";
 $priorites = array('HAUTE', 'MOYENNE PLUS', 'MOYENNE MOINS', 'BASSE');
 foreach ($priorites as $pri) {
-	$query .= "SELECT * FROM voeux WHERE proprietaire='$nom' AND priorite='$pri';";
-}
-substr($query, 0, -1);
-mysqli_multi_query($con, $query);
-foreach ($priorites as $pri) {
-	$result = mysqli_store_result($con);
+	$query = $con->prepare("SELECT * FROM voeux WHERE proprietaire=? AND priorite=?");
+	$query->bind_param("ss", $nom, $pri);
+	$query->execute();
+	$result = $query->get_result();
+	$query->close();
+	
 	$page .= "<h1 class='categories'>Priorité ".strtolower($pri).":</h1>";
 	while ($colonne = mysqli_fetch_array($result)) {
 		if ($colonne[5] != 1) {
@@ -40,10 +39,8 @@ foreach ($priorites as $pri) {
 		$page .= clearhtml($colonne[4])."€";
 		$page .= "</div></a></div>";
 	}
-	mysqli_next_result($con);
 }
-	
-echo(str_replace("quatro", "active", str_replace("%php%", $page, file_get_contents("header.html", true))));
 
-mysqli_close($con);
+$con->close();
+echo(str_replace("quatro", "active", str_replace("%php%", $page, file_get_contents("header.html", true))));
 ?>

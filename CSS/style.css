@@ -53,6 +53,10 @@
   transform: translate(-50%, -50%);
 }
 
+.horizontal-center {
+	margin: 0 auto;
+}
+
 .barre {
   display: block;
   color: #bfeff5;

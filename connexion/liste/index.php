@@ -58,15 +58,29 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 				} else {
 					$prix = clearhtml(strval($colonne[4]))."€";
 				}
-				$page .= "<div class='ticket'>";
-				$page .= "<a href='".checkurl(clearhtml($colonne[2]))."'>";
-				$page .= "<img src='".$image."' alt='L image du voeux' class='image_ticket'>";
-				$page .= "<div class='texte_ticket'>".clearhtml($nom)."<br>";
-				$page .= "<form action='monter.php' method='post'><input type='hidden' name='id' value='$colonne[0]'><input type='submit' value='MONTER EN PRIORITE'></form>";
-				$page .= "<form action='baisser.php' method='post'><input type='hidden' name='id' value='$colonne[0]'><input type='submit' value='BAISSER EN PRIORITE'></form>";
-				$page .= "<form action='supprimer.php' method='post'><input type='hidden' name='id' value='$colonne[0]'><input type='submit' value='SUPPRIMER'></form>";
-				$page .= $prix;
-				$page .= "</div></a></div>";
+				$page .= "<div class='ticket'>
+							<a href='".checkurl(clearhtml($colonne[2]))."'>
+								<img src='".$image."' alt='L image du voeux' class='image_ticket'>
+								<div class='texte_ticket'>".clearhtml($nom)."<br>
+									<form action='modifier.php' method='post'>
+										<input type='hidden' name='id' value='$colonne[0]'>
+										<input type='hidden' name='action' value='monter'>
+										<input type='submit' value='MONTER EN PRIORITE'>
+									</form>
+									<form action='modifier.php' method='post'>
+										<input type='hidden' name='id' value='$colonne[0]'>
+										<input type='hidden' name='action' value='descendre'>
+										<input type='submit' value='BAISSER EN PRIORITE'>
+									</form>
+									<form action='modifier.php' method='post'>
+										<input type='hidden' name='id' value='$colonne[0]'>
+										<input type='hidden' name='action' value='supprimer'>
+										<input type='submit' value='SUPPRIMER'>
+									</form>
+									".$prix."
+								</div>
+							</a>
+						</div>";
 			}
 		}
 	}

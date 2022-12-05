@@ -7,7 +7,7 @@ if (count(get_included_files()) <= 1) {
 }
 
 // If you want to have a basedir, don't forget to add a trailing / at the end!
-const BASEDIR = "wishlist";
+const BASEDIR = "wishlist/";
 
 const DB_PWD  = "the user password";
 const DB_USER = "the database username";

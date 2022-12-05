@@ -1,24 +1,24 @@
 <?php
-include "../../utils.php";
+include "../../INCLUDES/utils.php";
 
 $mail = $_POST["mail"];
-$nom  = $_POST["nom"];
-$mdp  = $_POST["mdp"];
+$name = $_POST["nom"];
+$pass = $_POST["mdp"];
 
 // Create conection
 $con = dbconnect();
 
 // Compte
 $query = $con->prepare("SELECT * FROM comptes WHERE nom=?");
-$query->bind_param("s", $nom);
+$query->bind_param("s", $name);
 $query->execute();
 $result = $query->get_result();
 $query->close();
 $result = mysqli_fetch_array($result);
 if ($result == null) {
-	$hash = password_hash($mdp, PASSWORD_DEFAULT);
+	$hash = password_hash($pass, PASSWORD_DEFAULT);
 	$query = $con->prepare("INSERT INTO comptes (nom, mail, hash) VALUES (?, ?, ?)");
-	$query->bind_param("sss", $nom, $mail, $hash);
+	$query->bind_param("sss", $name, $mail, $hash);
 	if ($query->execute() == TRUE) {
 		$query->close();
 		echo(addheader(file_get_contents("page.html"), "dos"));

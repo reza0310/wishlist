@@ -1,5 +1,5 @@
 <?php
-include "../../utils.php";
+include "../../INCLUDES/utils.php";
 
 session_start();
 $nom = $_SESSION["nom"];

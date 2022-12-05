@@ -1,5 +1,5 @@
  <?php
-include "../utils.php";
+include "../INCLUDES/utils.php";
 
 // Create connection
 $conn = dbconnect();

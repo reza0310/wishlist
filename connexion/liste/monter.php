@@ -1,6 +1,5 @@
 <?php
-set_include_path($_SERVER['DOCUMENT_ROOT']."/wishlist");
-include 'mdp.php';
+include "../../utils.php";
 
 session_start();
 $nom = $_SESSION["nom"];
@@ -8,11 +7,7 @@ $mdp = $_SESSION["mdp"];
 $_SESSION["reprise"] = true;
 $id = $_POST["id"];
 
-$con=mysqli_connect($servername,$username,$password,$dbname);
-if (mysqli_connect_errno()) {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  exit();
-}
+$con = dbconnect();
 
 $query = $con->prepare("SELECT * FROM comptes WHERE nom=?");
 $query->bind_param("s", $nom);
@@ -45,5 +40,5 @@ if ($row != null && password_verify($mdp, $row[2])) {
 }
 
 $con->close();
-header( "Location: /wishlist/connexion/liste" );
+header( "Location: /".BASEDIR."connexion/liste" );
 ?>

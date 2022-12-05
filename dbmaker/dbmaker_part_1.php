@@ -1,13 +1,8 @@
  <?php
-set_include_path($_SERVER['DOCUMENT_ROOT']."/wishlist");
-include 'mdp.php';
+include "../utils.php";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password);
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+$conn = dbconnect();
 
 // Create database
 $sql = "CREATE DATABASE wishlist";
@@ -18,4 +13,4 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $conn->close();
-?> 
+?>

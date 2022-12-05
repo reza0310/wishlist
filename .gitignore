@@ -1,1 +1,5 @@
 mdp.php
+config.php
+
+# Spécial pour les tests de Célian
+*.log

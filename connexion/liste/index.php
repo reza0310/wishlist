@@ -1,7 +1,5 @@
 <?php
-set_include_path($_SERVER['DOCUMENT_ROOT']."/wishlist");
-include 'mdp.php';
-include 'utils.php';
+include "../../INCLUDES/utils.php";
 
 session_start();
 if (isset($_SESSION["reprise"]) && $_SESSION["reprise"] == true) {
@@ -15,11 +13,7 @@ if (isset($_SESSION["reprise"]) && $_SESSION["reprise"] == true) {
 }
 $_SESSION["reprise"] = false;
 
-$con=mysqli_connect($servername,$username,$password,$dbname);
-if (mysqli_connect_errno()) {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  exit();
-}
+$con = dbconnect();
 
 $query = $con->prepare("SELECT * FROM comptes WHERE nom=?");
 $query->bind_param("s", $nom);
@@ -70,7 +64,7 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 			}
 		}
 	}
-	
+
 	$page .= "<h1 class='categories'>Ajouter un voeu:</h1>
 			<form action='ajouter.php' method='post'>
 			<table class='horizontal-center'>
@@ -89,13 +83,13 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 				</tr><tr>
 					<td>
 					<label for='image'>Lien image:</label>
-					</td><td> 
+					</td><td>
 					<input type='url' id='image' name='image'>
 					</td>
 				</tr><tr>
 					<td>
 					<label for='prix'>Prix total:</label>
-					</td><td> 
+					</td><td>
 					<input type='number' step='0.01' min='-1' id='prix' name='prix' placeholder='En €' required>
 					</td>
 				</tr><tr>
@@ -105,24 +99,24 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 				</tr><tr>
 					<td>
 					<label for='quantite'>Quantité:</label>
-					</td><td> 
+					</td><td>
 					<input type='number' min='0' id='quantite' name='quantite' value='1'>
 					</td>
 				</tr><tr>
 					<td>
 					<label for='priorite'>Priorité:</label>
 					</td><td>
-					<input type='radio' name='priorite' value='HAUTE'> Haute <br>  
-					<input type='radio' name='priorite' value='MOYENNE PLUS' checked> Moyenne + <br>  
-					<input type='radio' name='priorite' value='MOYENNE MOINS'> Moyenne - <br>  
+					<input type='radio' name='priorite' value='HAUTE'> Haute <br>
+					<input type='radio' name='priorite' value='MOYENNE PLUS' checked> Moyenne + <br>
+					<input type='radio' name='priorite' value='MOYENNE MOINS'> Moyenne - <br>
 					<input type='radio' name='priorite' value='BASSE'> Basse <br>
 					</td>
 				</tr>
 			</table>
 			<input type='submit' value='Ajouter'>
 			</form>";
-	
-	echo(str_replace("tres", "active", str_replace("%php%", $page, file_get_contents("header.html", true))));
+
+	echo(addheader($page, "tres"));
 }
 
 $con->close();

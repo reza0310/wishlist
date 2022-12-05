@@ -1,15 +1,9 @@
 <?php
-set_include_path($_SERVER['DOCUMENT_ROOT']."/wishlist");
-include 'mdp.php';
-include 'utils.php';
+include "../INCLUDES/utils.php";
 
 $nom = $_GET["nom"];
 
-$con=mysqli_connect($servername,$username,$password,$dbname);
-if (mysqli_connect_errno()) {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  exit();
-}
+$con = dbconnect();
 
 $page = "";
 $priorites = array('HAUTE', 'MOYENNE PLUS', 'MOYENNE MOINS', 'BASSE');
@@ -49,5 +43,6 @@ foreach ($priorites as $pri) {
 }
 
 $con->close();
-echo(str_replace("quatro", "active", str_replace("%php%", $page, file_get_contents("header.html", true))));
+
+echo(addheader($page, "quatro"));
 ?>

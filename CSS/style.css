@@ -1,99 +1,24 @@
-.active {
-  background-color: #7babb1;
-  color: #000;
-}
-
-.active:hover {
-  background-color: #7babb1;
-}
-
-.credit {
-	position: fixed;
-	bottom: 0;
-	margin: auto;
-	width: 100%;
-}
-
-.ticket {
-	margin: 1% 5%;
-	width: 20%;
-	display: inline-block;
-	position: relative;
-	border: 5px solid black;
-}
-
-.image_ticket {
-	opacity: 0.4;
-	width: 100%;
-}
-
-.texte_ticket {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: xx-large;
-  color: black;
-  width: 100%
-}
-
-.contacte {
-	font-size: 3em;
-	color: black;
-	text-decoration: none;
-	border: 10px solid black;
-}
-
-.center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-.horizontal-center {
-	margin: 0 auto;
-}
-
-.barre {
-  display: block;
-  color: #bfeff5;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-.barre:hover {
-  background-color: #111;
-}
-
-.categories {
-	display: block;
-}
-
 input[type=text], input[type=password], input[type=email], input[type=number], input[type=url] {
-  width: 48em;
-  padding: 12px 20px;
-  box-sizing: border-box;
-  border: 2px solid gray;
-  border-radius: 4px;
+	padding: 0.5em 0.8em;
+	box-sizing: border-box;
+	border: 2px solid gray;
+	border-radius: 4px;
 }
 
 input[type=button], input[type=submit] {
-  background-color: #4CAF50;
-  border: none;
-  padding: 16px 32px;
-  text-decoration: none;
-  cursor: pointer;
-  position: inherit;
-  margin: 2em auto;
+	background-color: #4CAF50;
+	border: none;
+	padding: 0.5em 0.8em;
+	text-decoration: none;
+	cursor: pointer;
+	position: inherit;
+	margin: 1.2em auto;
+	border-radius: 4px;
 }
 
 input {
-  display: block;
-  margin: 0 auto;
+	display: block;
+	margin: 0 auto;
 }
 
 button {
@@ -107,17 +32,18 @@ button {
 }
 
 h1 {
-    border: 3px solid #000;
-    display: inline-block;
-	font-size: 40px;
-	padding: 20px;
+	border: 3px solid #000;
+	display: block;
+	font-size: 1.6rem;
+	padding: 0.8rem 0;
+	margin: 0.7em;
 }
 
 h2 {
 	border: 5px solid #000;
 	width: 50%;
 	height: 17%;
-	font-size: 2em;
+	font-size: 1.3rem;
 	text-align: center;
 	margin: 2% auto;
 }
@@ -137,86 +63,229 @@ body {
 	text-align: center;
 }
 
-section {
-	margin-top: 4em;
+.active {
+	background-color: #7babb1;
+	color: #000;
 }
 
-@media (orientation : portrait) {
-	.navbar {
-	  list-style-type: none;
-	  margin: 0;
-	  padding: 0;
-	  overflow: hidden;
-	  background-color: #333;
-	  position: fixed;
-	  top: 0;
-	  height: 100%;
-	}
-
-	.innavbar {
-	}
-
-	.oinnavbar {
-	  position: absolute;
-	  bottom: 0;
-	  left: 10%;
-	}
-
-	.vc {
-		margin-top: 5%;
-		margin-bottom: 2%;
-	}
-
-	#hider {
-		height: 4.5%;
-	}
-
-	#shower {
-		position: absolute;
-		left: 0;
-		top: 0;
-		background-color: #333;
-		height: 4.5%;
-		display: none;
-		width: 25%;
-	}
+.active:hover {
+	background-color: #7babb1;
 }
+
+.credit {
+	position: fixed;
+	bottom: 0;
+	margin: auto;
+	width: 100%;
+}
+
+.content {
+	position: fixed;
+	top: 3rem;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 0;
+	margin: 0;
+	overflow: auto;
+}
+
+
+.category_title {
+	display: block;
+}
+
+.category_body {
+	display: grid;
+	grid-template-columns: repeat(auto-fill,minmax(20rem,1fr));
+}
+
+.ticket {
+	position: relative;
+	margin: 1em;
+	display: block;
+	border: 3px solid black;
+	max-height: 50vmin;
+	padding-bottom: 2.5em;
+	background-color: rgb(173, 222, 224);
+}
+
+.ticket_main {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.ticket_image {
+	width: 100%;
+	object-fit: contain;
+	object-position: top;
+	height: 100%;
+}
+
+.ticket_txt {
+	position: absolute;
+	bottom: 0;
+	color: black;
+	width: 100%;
+	border-top: 4px groove black;
+	background-color: rgba(210,240,230,0.4);
+	backdrop-filter: blur(7px);
+}
+
+.ticket_name {
+	font-size: xx-large;
+}
+
+.ticket_price {
+	font-size: x-large;
+}
+
+.ticket_actions {
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	bottom: 0;
+	width: 100%;
+	height: 2.5em;
+}
+
+.ticket_action {
+	flex-grow: 1;
+	margin: 4px;
+}
+
+input[type=submit].ticket_btn {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.contacte {
+	font-size: 2.5em;
+	color: black;
+	text-decoration: none;
+	border: 8px solid black;
+	padding: 0.2em;
+}
+
+.center {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.form {
+	display: inline-block;
+	width: 60%;
+	min-width: 30em;
+}
+
+.form_label {
+	white-space: nowrap;
+}
+
+.form_grow {
+	width: 100%;
+}
+
+.form_input {
+	width: 100%;
+}
+
+.barre {
+	display: block;
+	color: #bfeff5;
+	height: 100%;
+	padding: 0 1rem;
+	line-height: 3rem;
+	text-decoration: none;
+}
+
+.barre:hover {
+	background-color: #111;
+}
+
+#shower {
+	position: fixed;
+	left: 0;
+	top: 0;
+	background-color: #333;
+	height: 3rem;
+	z-index: 1000;
+}
+
+.navbar {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+	position: fixed;
+	z-index: 1000;
+}
+
+.vc {
+	padding: 0.4em;
+	box-sizing: border-box;
+}
+
 
 @media (orientation : landscape) {
 	.navbar {
-	  list-style-type: none;
-	  margin: 0;
-	  padding: 0;
-	  overflow: hidden;
-	  background-color: #333;
-	  position: fixed;
-	  top: 0;
-	  width: 100%;
-	}
-
-	.innavbar {
-	  float: left;
-	}
-
-	.oinnavbar {
-	  float: right;
+		top: 0;
+		width: 100%;
+		height: 3rem;
 	}
 
 	.vc {
-		margin-top:35%;
-		margin-bottom:25%;
+		height: 100%;
+		width: 100%;
+	}
+
+	.innavbar {
+		float: left;
+		height: 100%;
+	}
+
+	.oinnavbar {
+		float: right;
+	}
+}
+
+
+@media (orientation : portrait) {
+	.vc {
+		height: 3rem;
+		width: 3rem;
+		display: inline-block;
 	}
 
 	#hider {
-		width: 3%;
+		text-align: left;
 	}
 
-	#shower {
-		position: absolute;
-		left: 0;
+	.navbar {
 		top: 0;
-		background-color: #333;
-		width: 3%;
-		display: none;
+		left: 0;
+		height: 100%;
+	}
+
+	.oinnavbar {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+	}
+
+	.content {
+		top: 0;
+	}
+
+	.form {
+		width: 100%;
+		padding: 1em;
 	}
 }

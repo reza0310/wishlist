@@ -29,6 +29,9 @@ function clearhtml($str) {
 
 
 function checkurl($str) {
+	if (empty($str)) {
+		return "";
+	}
 	return "http".substr(clearmulti($str, array("'", "%27", "\\", "%5C", '"', "%22", " ", "%20")), 4);
 }
 

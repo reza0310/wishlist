@@ -14,13 +14,14 @@ $result = mysqli_fetch_all($query->get_result());
 $query->close();
 
 foreach ($priorites as $pri) {
-	$page .= "<h1 class='categories'>Priorité ".strtolower($pri).":</h1>";
+	$page .= "<h1 class='category_title'>Priorité ".strtolower($pri).":</h1>";
+	$page .= "<div class='category_body'>";
 	foreach ($result as $colonne) {
 		if ($colonne[6] == $pri) {
 			if ($colonne[5] != 1) {
 				$nom = strval($colonne[5]) . " &times " . $colonne[1];
 			} else {
-				$nom = $colonne[1];
+				$nom = clearhtml($colonne[1]);
 			}
 			if ($colonne[3] == NULL) {
 				$image = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Question_mark_alternate.svg/1200px-Question_mark_alternate.svg.png";
@@ -32,14 +33,18 @@ foreach ($priorites as $pri) {
 			} else {
 				$prix = clearhtml(strval($colonne[4]))."€";
 			}
-			$page .= "<div class='ticket'>";
-			$page .= "<a href='".checkurl(clearhtml($colonne[2]))."'>";
-			$page .= "<img src='".$image."' alt='L image du voeux' class='image_ticket'>";
-			$page .= "<div class='texte_ticket'>".clearhtml($nom)."<br>";
-			$page .= $prix;
-			$page .= "</div></a></div>";
+			$url = checkurl(clearhtml($colonne[2]));
+			$page .= "
+			<a class='ticket' href='$url' target='_blank'>
+				<img class='ticket_image' src='$image' alt='L image du voeux'>
+				<div class='ticket_txt'>
+					<div class='ticket_name'>$nom</div>
+					<div class='ticket_price'>$prix</div>
+				</div>
+			</a>";
 		}
 	}
+	$page .= "</div>";
 }
 
 $con->close();

@@ -1,7 +1,7 @@
 <?php
 
 // ================================================
-// Don't forget to rename this file to "config.php"
+// Don't forget to rename this file to "mdp.php"
 // ================================================
 
 // Deny execution of the rest of this file if not included

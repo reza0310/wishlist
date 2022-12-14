@@ -14,13 +14,14 @@ $result = mysqli_fetch_all($query->get_result());
 $query->close();
 
 foreach ($priorites as $pri) {
-	$page .= "<h1 class='categories'>Priorité ".strtolower($pri).":</h1>";
+	$page .= "<h1 class='category_title'>Priorité ".strtolower($pri).":</h1>";
+	$page .= "<div class='category_body'>";
 	foreach ($result as $colonne) {
 		if ($colonne[6] == $pri) {
 			if ($colonne[5] != 1) {
 				$nom = strval($colonne[5]) . " &times " . $colonne[1];
 			} else {
-				$nom = $colonne[1];
+				$nom = clearhtml($colonne[1]);
 			}
 			if ($colonne[3] == NULL) {
 				$image = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Question_mark_alternate.svg/1200px-Question_mark_alternate.svg.png";
@@ -32,21 +33,41 @@ foreach ($priorites as $pri) {
 			} else {
 				$prix = clearhtml(strval($colonne[4]))."€";
 			}
-			$link = checkurl(clearhtml($colonne[2]));
-			$page .= "<div class='ticket'>";
-			if ($link != "") {
-				$page .= "<a href='".$link."'>";
-			}
-			$page .=	"<img src='".$image."' alt='L image du voeux' class='image_ticket'>
-							<div class='texte_ticket'>"
-								.clearhtml($nom)."<br>".$prix.
-							"</div>";
-			if ($link != "") {
-				$page .= "</a>";
-			}
-			$page .= "</div>";
-		}
-	}
+      $url = checkurl(clearhtml($colonne[2]));
+      if ($url != "") {
+        $page .= "<a class='ticket' href='$url' target='_blank'>";
+      }
+      $page .= "
+        <div class='ticket_main'>
+          <img class='ticket_image' src='$image' alt='L image du voeux'>
+          <div class='ticket_txt'>
+            <div class='ticket_name'>$nom</div>
+            <div class='ticket_price'>$prix</div>
+          </div>
+        </div>
+        <div class='ticket_actions'>
+          <form class='ticket_action' action='modifier.php' method='post'>
+            <input type='hidden' name='id' value='$colonne[0]'>
+            <input type='hidden' name='action' value='monter'>
+            <input class='ticket_btn' type='submit' value='⇧'>
+          </form>
+          <form class='ticket_action' action='modifier.php' method='post'>
+            <input type='hidden' name='id' value='$colonne[0]'>
+            <input type='hidden' name='action' value='descendre'>
+            <input class='ticket_btn' type='submit' value='⇩'>
+          </form>
+          <form class='ticket_action' action='modifier.php' method='post'>
+            <input type='hidden' name='id' value='$colonne[0]'>
+            <input type='hidden' name='action' value='supprimer'>
+            <input class='ticket_btn' type='submit' value='SUPPRIMER'>
+          </form>
+        </div>"; 
+      if ($url != "") {
+        $page .= "</a>";
+      }
+    }
+  }
+	$page .= "</div>";
 }
 
 $con->close();

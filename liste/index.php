@@ -33,11 +33,13 @@ foreach ($priorites as $pri) {
 			} else {
 				$prix = clearhtml(strval($colonne[4]))."€";
 			}
-      $url = checkurl(clearhtml($colonne[2]));
-      if ($url != "") {
-        $page .= "<a class='ticket' href='$url' target='_blank'>";
-      }
-      $page .= "
+		$url = checkurl(clearhtml($colonne[2]));
+		if ($url != "") {
+			$page .= "<a class='ticket' href='$url' target='_blank'>";
+		} else {
+			$page .= "<div class='ticket'>";
+		}
+		$page .= "
         <div class='ticket_main'>
           <img class='ticket_image' src='$image' alt='L image du voeux'>
           <div class='ticket_txt'>
@@ -62,9 +64,11 @@ foreach ($priorites as $pri) {
             <input class='ticket_btn' type='submit' value='SUPPRIMER'>
           </form>
         </div>"; 
-      if ($url != "") {
-        $page .= "</a>";
-      }
+		if ($url != "") {
+			$page .= "</a>";
+		} else {
+			$page .= "</div>";
+		}
     }
   }
 	$page .= "</div>";

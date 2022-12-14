@@ -56,8 +56,10 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 				$url = checkurl(clearhtml($colonne[2]));
 				if ($url != "") {
 					$page .= "<a class='ticket' href='$url' target='_blank'>";
+				} else {
+					$page .= "<div class='ticket'>";
 				}
-        $page .= "
+				$page .= "
 					<div class='ticket_main'>
 						<img class='ticket_image' src='$image' alt='L image du voeux'>
 						<div class='ticket_txt'>
@@ -84,6 +86,8 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 					</div>"; 
 				if ($url != "") {
 					$page .= "</a>";
+				} else {
+					$page .= "</div>";
 				}
 			}
 		}

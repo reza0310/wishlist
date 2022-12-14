@@ -33,17 +33,40 @@ foreach ($priorites as $pri) {
 			} else {
 				$prix = clearhtml(strval($colonne[4]))."€";
 			}
-			$url = checkurl(clearhtml($colonne[2]));
-			$page .= "
-			<a class='ticket' href='$url' target='_blank'>
-				<img class='ticket_image' src='$image' alt='L image du voeux'>
-				<div class='ticket_txt'>
-					<div class='ticket_name'>$nom</div>
-					<div class='ticket_price'>$prix</div>
-				</div>
-			</a>";
-		}
-	}
+      $url = checkurl(clearhtml($colonne[2]));
+      if ($url != "") {
+        $page .= "<a class='ticket' href='$url' target='_blank'>";
+      }
+      $page .= "
+        <div class='ticket_main'>
+          <img class='ticket_image' src='$image' alt='L image du voeux'>
+          <div class='ticket_txt'>
+            <div class='ticket_name'>$nom</div>
+            <div class='ticket_price'>$prix</div>
+          </div>
+        </div>
+        <div class='ticket_actions'>
+          <form class='ticket_action' action='modifier.php' method='post'>
+            <input type='hidden' name='id' value='$colonne[0]'>
+            <input type='hidden' name='action' value='monter'>
+            <input class='ticket_btn' type='submit' value='⇧'>
+          </form>
+          <form class='ticket_action' action='modifier.php' method='post'>
+            <input type='hidden' name='id' value='$colonne[0]'>
+            <input type='hidden' name='action' value='descendre'>
+            <input class='ticket_btn' type='submit' value='⇩'>
+          </form>
+          <form class='ticket_action' action='modifier.php' method='post'>
+            <input type='hidden' name='id' value='$colonne[0]'>
+            <input type='hidden' name='action' value='supprimer'>
+            <input class='ticket_btn' type='submit' value='SUPPRIMER'>
+          </form>
+        </div>"; 
+      if ($url != "") {
+        $page .= "</a>";
+      }
+    }
+  }
 	$page .= "</div>";
 }
 

@@ -54,8 +54,10 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 					$prix = clearhtml(strval($colonne[4]))."€";
 				}
 				$url = checkurl(clearhtml($colonne[2]));
-				$page .= "
-				<a class='ticket' href='$url' target='_blank'>
+				if ($url != "") {
+					$page .= "<a class='ticket' href='$url' target='_blank'>";
+				}
+        $page .= "
 					<div class='ticket_main'>
 						<img class='ticket_image' src='$image' alt='L image du voeux'>
 						<div class='ticket_txt'>
@@ -79,8 +81,10 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 							<input type='hidden' name='action' value='supprimer'>
 							<input class='ticket_btn' type='submit' value='SUPPRIMER'>
 						</form>
-					</div>
-				</a>";
+					</div>"; 
+				if ($url != "") {
+					$page .= "</a>";
+				}
 			}
 		}
 		$page .= "</div>";

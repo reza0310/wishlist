@@ -23,7 +23,7 @@ $query->close();
 $row = $result->fetch_array(MYSQLI_NUM);
 
 if ($row == null || !password_verify($mdp, $row[2])) {
-	echo(str_replace("tres", "active", str_replace("%php%", "<h1>Nom ou mot de passe invalide</h1>", file_get_contents("header.html", true))));
+	echo(addheader("<h1>Nom ou mot de passe invalide</h1>", "tres"));
 } else {
 	$page = "";
 	$priorites = array('HAUTE', 'MOYENNE PLUS', 'MOYENNE MOINS', 'BASSE');
@@ -52,9 +52,12 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 				} else {
 					$prix = clearhtml(strval($colonne[4]))."€";
 				}
-				$page .= "<div class='ticket'>
-							<a href='".checkurl(clearhtml($colonne[2]))."'>
-								<img src='".$image."' alt='L image du voeux' class='image_ticket'>
+				$link = checkurl(clearhtml($colonne[2]));
+				$page .= "<div class='ticket'>";
+				if ($link != "") {
+					$page .= "<a href='".$link."'>";
+				}
+				$page .=	"<img src='".$image."' alt='L image du voeux' class='image_ticket'>
 								<div class='texte_ticket'>".clearhtml($nom)."<br>
 									<form action='modifier.php' method='post'>
 										<input type='hidden' name='id' value='$colonne[0]'>
@@ -72,9 +75,11 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 										<input type='submit' value='SUPPRIMER'>
 									</form>
 									".$prix."
-								</div>
-							</a>
-						</div>";
+								</div>";
+				if ($link != "") {
+					$page .= "</a>";
+				}
+				$page .= "</div>";
 			}
 		}
 	}

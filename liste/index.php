@@ -32,12 +32,19 @@ foreach ($priorites as $pri) {
 			} else {
 				$prix = clearhtml(strval($colonne[4]))."€";
 			}
+			$link = checkurl(clearhtml($colonne[2]));
 			$page .= "<div class='ticket'>";
-			$page .= "<a href='".checkurl(clearhtml($colonne[2]))."'>";
-			$page .= "<img src='".$image."' alt='L image du voeux' class='image_ticket'>";
-			$page .= "<div class='texte_ticket'>".clearhtml($nom)."<br>";
-			$page .= $prix;
-			$page .= "</div></a></div>";
+			if ($link != "") {
+				$page .= "<a href='".$link."'>";
+			}
+			$page .=	"<img src='".$image."' alt='L image du voeux' class='image_ticket'>
+							<div class='texte_ticket'>"
+								.clearhtml($nom)."<br>".$prix.
+							"</div>";
+			if ($link != "") {
+				$page .= "</a>";
+			}
+			$page .= "</div>";
 		}
 	}
 }

@@ -26,9 +26,11 @@ if ($row != null && password_verify($mdp, $row[2])) {
 	if ($obj != null && $obj["proprietaire"] == $nom) {
 		
 		if ($action == 'monter') {
-			if ($obj["priorite"] == "MOYENNE PLUS") {
+			if ($obj["priorite"] == "HAUTE") {
+				$nextpri = "DISCONTINUE";
+			} else if ($obj["priorite"] == "MOYENNE PLUS") {
 				$nextpri = "HAUTE";
-			} else if ($obj["priorite"] == "MOYENNE MOINS") {
+			}  else if ($obj["priorite"] == "MOYENNE MOINS") {
 				$nextpri = "MOYENNE PLUS";
 			} else if ($obj["priorite"] == "BASSE") {
 				$nextpri = "MOYENNE MOINS";
@@ -38,9 +40,11 @@ if ($row != null && password_verify($mdp, $row[2])) {
 			$query = $con->prepare("UPDATE voeux SET priorite=? WHERE id=?");
 			$query->bind_param("si", $nextpri, $id);
 		} else if ($action == 'descendre') {			
-			if ($obj["priorite"] == "HAUTE") {
+			if ($obj["priorite"] == "DISCONTINUE") {
+				$nextpri = "HAUTE";
+			} else if ($obj["priorite"] == "HAUTE") {
 				$nextpri = "MOYENNE PLUS";
-			} else if ($obj["priorite"] == "MOYENNE PLUS") {
+			}  else if ($obj["priorite"] == "MOYENNE PLUS") {
 				$nextpri = "MOYENNE MOINS";
 			} else if ($obj["priorite"] == "MOYENNE MOINS") {
 				$nextpri = "BASSE";

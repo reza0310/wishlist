@@ -6,7 +6,7 @@ $nom = $_GET["nom"];
 $con = dbconnect();
 
 $page = "";
-$priorites = array('HAUTE', 'MOYENNE PLUS', 'MOYENNE MOINS', 'BASSE');
+$priorites = array('DISCONTINUE', 'HAUTE', 'MOYENNE PLUS', 'MOYENNE MOINS', 'BASSE');
 $query = $con->prepare("SELECT * FROM voeux WHERE proprietaire=?");
 $query->bind_param("s", $nom);
 $query->execute();
@@ -46,23 +46,6 @@ foreach ($priorites as $pri) {
             <div class='ticket_name'>$nom</div>
             <div class='ticket_price'>$prix</div>
           </div>
-        </div>
-        <div class='ticket_actions'>
-          <form class='ticket_action' action='modifier.php' method='post'>
-            <input type='hidden' name='id' value='$colonne[0]'>
-            <input type='hidden' name='action' value='monter'>
-            <input class='ticket_btn' type='submit' value='⇧'>
-          </form>
-          <form class='ticket_action' action='modifier.php' method='post'>
-            <input type='hidden' name='id' value='$colonne[0]'>
-            <input type='hidden' name='action' value='descendre'>
-            <input class='ticket_btn' type='submit' value='⇩'>
-          </form>
-          <form class='ticket_action' action='modifier.php' method='post'>
-            <input type='hidden' name='id' value='$colonne[0]'>
-            <input type='hidden' name='action' value='supprimer'>
-            <input class='ticket_btn' type='submit' value='SUPPRIMER'>
-          </form>
         </div>"; 
 		if ($url != "") {
 			$page .= "</a>";

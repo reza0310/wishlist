@@ -26,7 +26,7 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 	echo(addheader("<h1>Nom ou mot de passe invalide</h1>", "tres"));
 } else {
 	$page = "";
-	$priorites = array('HAUTE', 'MOYENNE PLUS', 'MOYENNE MOINS', 'BASSE');
+	$priorites = array('DISCONTINUE', 'HAUTE', 'MOYENNE PLUS', 'MOYENNE MOINS', 'BASSE');
 	$query = $con->prepare("SELECT * FROM voeux WHERE proprietaire=?");
 	$query->bind_param("s", $nom);
 	$query->execute();
@@ -55,9 +55,9 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 				}
 				$url = checkurl(clearhtml($colonne[2]));
 				if ($url != "") {
-					$page .= "<a class='ticket' href='$url' target='_blank'>";
+					$page .= "<a class='ticket ticket_padding' href='$url' target='_blank'>";
 				} else {
-					$page .= "<div class='ticket'>";
+					$page .= "<div class='ticket ticket_padding'>";
 				}
 				$page .= "
 					<div class='ticket_main'>

@@ -1,6 +1,7 @@
 mdp.php
-INCLUDES/mdp.php
+mdp.template.php
 config.php
+config.template.php
 
 # Spécial pour les tests de Célian
 *.log

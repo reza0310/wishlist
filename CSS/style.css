@@ -106,8 +106,11 @@ body {
 	display: block;
 	border: 3px solid black;
 	max-height: 50vmin;
-	padding-bottom: 2.5em;
 	background-color: rgb(173, 222, 224);
+}
+
+.ticket_padding {
+	padding-bottom: 2.5em;
 }
 
 .ticket_main {

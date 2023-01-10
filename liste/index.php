@@ -6,6 +6,35 @@ $nom = $_GET["nom"];
 $con = dbconnect();
 
 $page = "";
+	
+// Styles
+$page .= "<h1>STYLES:</h1>
+		  <div class='category_body'>";
+$query = $con->prepare("SELECT * FROM styles WHERE proprietaire=?");
+$query->bind_param("s", $nom);
+$query->execute();
+$result = mysqli_fetch_all($query->get_result());
+$query->close();
+foreach ($result as $colonne) {
+	if ($colonne[2] == NULL) {
+		$image = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Question_mark_alternate.svg/1200px-Question_mark_alternate.svg.png";
+	} else {
+		$image = checkurl(clearhtml($colonne[2]));
+	}
+	$page .= "
+	<div class='ticket'>
+		<div class='ticket_main'>
+			<img class='ticket_image' src='$image' alt='L image du voeux'>
+			<div class='ticket_txt'>
+				<div class='ticket_name'>$colonne[1]</div>
+			</div>
+		</div>
+	</div>";
+}
+$page .= "</div>";
+
+// Voeux
+$page .= "<h1>VOEUX:</h1>";
 $priorites = array('DISCONTINUE', 'HAUTE', 'MOYENNE PLUS', 'MOYENNE MOINS', 'BASSE');
 $query = $con->prepare("SELECT * FROM voeux WHERE proprietaire=?");
 $query->bind_param("s", $nom);

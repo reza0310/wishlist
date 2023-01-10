@@ -8,7 +8,7 @@ $con = dbconnect();
 $page = "";
 	
 // Styles
-$page .= "<h1>STYLES:</h1>
+$page .= "<h1>STYLES & UNIVERS:</h1>
 		  <div class='category_body'>";
 $query = $con->prepare("SELECT * FROM styles WHERE proprietaire=?");
 $query->bind_param("s", $nom);

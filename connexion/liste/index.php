@@ -28,7 +28,7 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 	$page = "";
 	
 	// Styles
-	$page .= "<h1>STYLES:</h1>
+	$page .= "<h1>STYLES & UNIVERS:</h1>
 			  <div class='category_body'>";
 	$query = $con->prepare("SELECT * FROM styles WHERE proprietaire=?");
 	$query->bind_param("s", $nom);
@@ -59,7 +59,7 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 
 	$page .= "</div>
 	
-	<h1 class='category_title'>Ajouter un style:</h1>
+	<h1 class='category_title'>Ajouter un style ou un univers:</h1>
 	<form action='ajouter_style.php' method='post'>
 		<table class='form'>
 			<tr>

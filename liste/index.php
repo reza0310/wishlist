@@ -15,6 +15,7 @@ $query->bind_param("s", $nom);
 $query->execute();
 $result = mysqli_fetch_all($query->get_result());
 $query->close();
+
 foreach ($result as $colonne) {
 	if ($colonne[2] == NULL) {
 		$image = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Question_mark_alternate.svg/1200px-Question_mark_alternate.svg.png";
@@ -41,9 +42,11 @@ $query->bind_param("s", $nom);
 $query->execute();
 $result = mysqli_fetch_all($query->get_result());
 $query->close();
+$miniprix = 0;
+$maxiprix = 0;
 
 foreach ($priorites as $pri) {
-	$page .= "<h1 class='category_title'>Priorité ".strtolower($pri).":</h1>";
+	$page .= "<h1 class='category_title'>Priorité ".strtolower($pri)." (%bang%€):</h1>";
 	$page .= "<div class='category_body'>";
 	foreach ($result as $colonne) {
 		if ($colonne[6] == $pri) {
@@ -61,30 +64,35 @@ foreach ($priorites as $pri) {
 				$prix = "Prix inconnu";
 			} else {
 				$prix = clearhtml(strval($colonne[4]))."€";
+				$miniprix += $colonne[4];
+				$maxiprix += $colonne[4];
 			}
-		$url = checkurl(clearhtml($colonne[2]));
-		if ($url != "") {
-			$page .= "<a class='ticket' href='$url' target='_blank'>";
-		} else {
-			$page .= "<div class='ticket'>";
+			$url = checkurl(clearhtml($colonne[2]));
+			if ($url != "") {
+				$page .= "<a class='ticket' href='$url' target='_blank'>";
+			} else {
+				$page .= "<div class='ticket'>";
+			}
+			$page .= "
+			<div class='ticket_main'>
+			  <img class='ticket_image' src='$image' alt='L image du voeux'>
+			  <div class='ticket_txt'>
+				<div class='ticket_name'>$nom</div>
+				<div class='ticket_price'>$prix</div>
+			  </div>
+			</div>"; 
+			if ($url != "") {
+				$page .= "</a>";
+			} else {
+				$page .= "</div>";
+			}
 		}
-		$page .= "
-        <div class='ticket_main'>
-          <img class='ticket_image' src='$image' alt='L image du voeux'>
-          <div class='ticket_txt'>
-            <div class='ticket_name'>$nom</div>
-            <div class='ticket_price'>$prix</div>
-          </div>
-        </div>"; 
-		if ($url != "") {
-			$page .= "</a>";
-		} else {
-			$page .= "</div>";
-		}
-    }
-  }
+	}
+	$page = str_replace("%bang%", strval($miniprix), $page);
 	$page .= "</div>";
+	$miniprix = 0;
 }
+$page .= "<h1 class='category_title'>Total: ($maxiprix €):</h1>";
 
 $con->close();
 

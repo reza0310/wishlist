@@ -1,16 +1,16 @@
 function hide(hider, shower, conteneur) {
 	function wrapped() {
+		shower.style.display = conteneur.style.display;
 		conteneur.style.display = "none";
 		hider.style.display = "none";
-		shower.style.display = "block";
 	}
 	return wrapped;
 }
 
 function show(hider, shower, conteneur) {
 	function wrapped() {
-		conteneur.style.display = "block";
-		hider.style.display = "block";
+		conteneur.style.display = shower.style.display;
+		hider.style.display = shower.style.display;
 		shower.style.display = "none";
 	}
 	return wrapped;

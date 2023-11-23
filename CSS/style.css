@@ -237,8 +237,8 @@ input[type=submit].ticket_btn {
 
 .hideshow_category {
 	height: inherit;
-	position: relative;
-	left: 42%;
+	position: absolute;
+	right: 6%;
 }
 
 @media (orientation : landscape) {

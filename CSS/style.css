@@ -210,7 +210,7 @@ input[type=submit].ticket_btn {
 	background-color: #111;
 }
 
-#shower {
+.shower {
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -232,76 +232,4 @@ input[type=submit].ticket_btn {
 .vc {
 	padding: 0.4em;
 	box-sizing: border-box;
-}
-
-
-@media (orientation : landscape) {
-	.navbar {
-		top: 0;
-		width: 100%;
-		height: 3rem;
-		display: block;
-	}
-
-	.vc {
-		height: 100%;
-		width: 100%;
-	}
-
-	.innavbar {
-		float: left;
-		height: 100%;
-	}
-
-	.oinnavbar {
-		float: right;
-	}
-
-	.form {
-		width: 60%;
-		min-width: 30em;
-	}
-
-	#shower {
-		display: none;
-	}
-}
-
-
-@media (orientation : portrait) {
-	.vc {
-		height: 3rem;
-		width: 3rem;
-		display: inline-block;
-	}
-
-	#hider {
-		text-align: left;
-	}
-
-	.navbar {
-		top: 0;
-		left: 0;
-		height: 100%;
-		display: none;
-	}
-
-	.oinnavbar {
-		position: absolute;
-		bottom: 0;
-		width: 100%;
-	}
-
-	.content {
-		top: 0;
-	}
-
-	.form {
-		width: 100%;
-		padding: 1em;
-	}
-
-	#shower {
-		display: block;
-	}
 }

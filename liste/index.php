@@ -46,8 +46,11 @@ $miniprix = 0;
 $maxiprix = 0;
 
 foreach ($priorites as $pri) {
-	$page .= "<h1 class='category_title'>Priorité ".strtolower($pri)." (%bang%€):</h1>";
-	$page .= "<div class='category_body'>";
+	$page .= "<h1 class='category_title'>Priorité ".strtolower($pri)." (%bang%€):";
+	$page .= "<svg id='hider-".strtolower($pri)."' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'><!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d='M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z'/></svg>";
+	$page .= "<svg id='shower-".strtolower($pri)."' style='display: none;' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'><!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z'/></svg>";
+	$page .= "</h1>";
+	$page .= "<div id='".strtolower($pri)."' class='category_body conteneur'>";
 	foreach ($result as $colonne) {
 		if ($colonne[6] == $pri) {
 			if ($colonne[5] != 1) {

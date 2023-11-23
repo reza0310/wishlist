@@ -23,9 +23,9 @@ $query->close();
 $row = $result->fetch_array(MYSQLI_NUM);
 
 if ($row == null || !password_verify($mdp, $row[2])) {
-	echo(addheader("<h1>Nom ou mot de passe invalide</h1>", "tres"));
+	echo(addheader("<h1>Session expirée ou couple nom/mot de passe invalide</h1>", "tres"));
 } else {
-	$page = "";
+	$page = "<script src='/wishlist/JS/dontreloadform.js'></script>";
 	
 	// Styles
 	$page .= "<h1>STYLES & UNIVERS:</h1>
@@ -95,8 +95,11 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 	$maxiprix = 0;
 
 	foreach ($priorites as $pri) {
-		$page .= "<h1 class='category_title'>Priorité ".strtolower($pri)." (%bang%€):</h1>";
-		$page .= "<div class='category_body'>";
+		$page .= "<h1 class='category_title'>Priorité ".strtolower($pri)." (%bang%€):";
+		$page .= "<svg id='hider-".strtolower($pri)."' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'><!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d='M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z'/></svg>";
+		$page .= "<svg id='shower-".strtolower($pri)."' style='display: none;' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'><!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z'/></svg>";
+		$page .= "</h1>";
+		$page .= "<div id='".strtolower($pri)."' class='category_body conteneur'>";
 		foreach ($result as $colonne) {
 			if ($colonne[6] == $pri) {
 				if ($colonne[5] != 1) {
@@ -223,7 +226,7 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 			</tr>
 		</table>
 		<input type='submit' value='Ajouter'>
-	</form><script src='/wishlist/JS/dontreloadform.js'></script>";
+	</form>";
 
 	echo(addheader($page, "tres"));
 }

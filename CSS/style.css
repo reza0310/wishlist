@@ -107,7 +107,7 @@ body {
 	display: block;
 	border: 3px solid black;
 	max-height: 50vmin;
-	background-color: rgb(173, 222, 224);
+	background-color: rgb(255, 255, 255);
 }
 
 .ticket_padding {
@@ -123,7 +123,6 @@ body {
 .ticket_image {
 	width: 100%;
 	object-fit: contain;
-	object-position: top;
 	height: 100%;
 }
 

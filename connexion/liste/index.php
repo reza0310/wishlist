@@ -214,7 +214,7 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 					<label class='form_label' for='priorite'>Priorité:</label>
 				</td>
 				<td class='form_grow'>
-					<input type='radio' name='priorite' value='HAUTE'> Discontinué <br>
+					<input type='radio' name='priorite' value='DISCONTINUE'> Discontinué <br>
 					<input type='radio' name='priorite' value='HAUTE'> Haute <br>
 					<input type='radio' name='priorite' value='MOYENNE PLUS' checked> Moyenne + <br>
 					<input type='radio' name='priorite' value='MOYENNE MOINS'> Moyenne - <br>
@@ -223,7 +223,7 @@ if ($row == null || !password_verify($mdp, $row[2])) {
 			</tr>
 		</table>
 		<input type='submit' value='Ajouter'>
-	</form>";
+	</form><script src='/wishlist/JS/dontreloadform.js'></script>";
 
 	echo(addheader($page, "tres"));
 }

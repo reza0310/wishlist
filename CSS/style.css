@@ -228,6 +228,10 @@ input[type=submit].ticket_btn {
 	background-color: #333;
 	position: fixed;
 	z-index: 1000;
+	top: 0;
+	width: 100%;
+	height: 3rem;
+	display: block;
 }
 
 .vc {
@@ -241,73 +245,21 @@ input[type=submit].ticket_btn {
 	right: 6%;
 }
 
-@media (orientation : landscape) {
-	.navbar {
-		top: 0;
-		width: 100%;
-		height: 3rem;
-		display: block;
-	}
-
-	.vc {
-		height: 100%;
-		width: 100%;
-	}
-
-	.innavbar {
-		float: left;
-		height: 100%;
-	}
-
-	.oinnavbar {
-		float: right;
-	}
-
-	.form {
-		width: 60%;
-		min-width: 30em;
-	}
-
-	.shower {
-		display: none;
-	}
+.vc {
+	height: 100%;
+	width: 100%;
 }
 
+.innavbar {
+	float: left;
+	height: 100%;
+}
 
-@media (orientation : portrait) {
-	.vc {
-		height: 3rem;
-		width: 3rem;
-		display: inline-block;
-	}
+.oinnavbar {
+	float: right;
+}
 
-	.hider {
-		text-align: left;
-	}
-
-	.navbar {
-		top: 0;
-		left: 0;
-		height: 100%;
-		display: none;
-	}
-
-	.oinnavbar {
-		position: absolute;
-		bottom: 0;
-		width: 100%;
-	}
-
-	.content {
-		top: 0;
-	}
-
-	.form {
-		width: 100%;
-		padding: 1em;
-	}
-
-	.shower {
-		display: block;
-	}
+.form {
+	width: 60%;
+	min-width: 30em;
 }

@@ -25,7 +25,7 @@ $row = $result->fetch_array(MYSQLI_NUM);
 if ($row == null || !password_verify($mdp, $row[2])) {
 	echo(addheader("<h1>Session expirée ou couple nom/mot de passe invalide</h1>", "tres"));
 } else {
-	$page = "<script src='/wishlist/JS/dontreloadform.js'></script>";
+	$page = "<script src='/wishlist/JS/dontreloadforms.js'></script>";
 	
 	// Styles
 	$page .= "<h1>STYLES & UNIVERS:</h1>

@@ -188,6 +188,7 @@ create table if not exists wishs (
     quantity int,
     owneds int,
     position int,
+    `priority` int,
     created_at timestamp not null default current_timestamp,
 
     `type` ENUM(

@@ -1,0 +1,4 @@
+[HTML_COMPILER]
+public_root = "../../www/public"
+css_file = "../../www/private/css/style.css"
+html_output_filename = "index.html"

@@ -1,0 +1,4 @@
+[HTML_COMPILER]
+public_root = "dist"
+css_file = "templates/css/style.css"
+html_output_filename = "index.html"

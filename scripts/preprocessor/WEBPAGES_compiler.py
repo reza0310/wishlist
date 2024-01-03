@@ -1,9 +1,9 @@
 import os
 import os.path
-from TOML_parser import parse_toml
+from TOML_parser import find_and_parse_toml
 
 with open("../../configs/config.toml", "r") as f:
-    config, _ = parse_toml(f.read(), False)
+    config, _ = find_and_parse_toml(f.read(), False)
 EXPLORATION_PATH = config["HTML_COMPILER"]["public_root"]
 FILENAME = config["HTML_COMPILER"]["html_output_filename"]
 
@@ -23,4 +23,4 @@ while file:
         # On charge le fichier
         with open(element, "r") as f:
             # On parse le toml
-            toml, html = parse_toml(f.read())
+            toml, html = find_and_parse_toml(f.read())

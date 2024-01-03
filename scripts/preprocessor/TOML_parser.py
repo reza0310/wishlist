@@ -2,7 +2,7 @@
 __author__      = "reza0310"
 """
     TOML_parser.py: A small implementation of a TOML parser.
-    TODO (unnecessary right now): 
+    TODO (unnecessary right now):
         1) Implement multi-lines strings
         2) Implement . relations (servers.alpha under servers, ...)
 """
@@ -13,7 +13,8 @@ openers = [x[0] for x in containers]
 value_value_separators = (",", ";", "/")
 key_value_separators = (":", "=")
 
-def get_out(string, index):
+
+def get_out(string: str, index: int) -> int:
     """
     ENTRÉE: L'index d'un opener
     SORTIE: L'index du closer associé
@@ -30,7 +31,8 @@ def get_out(string, index):
             pile += 1
     return index
 
-def find_toml(file: str):
+
+def find_toml(file: str) -> tuple[str, str]:
     """
     ENTRÉE: Un document HTML contenant une balise TOML d'entête
     SORTIE: Le TOML d'entête
@@ -40,7 +42,8 @@ def find_toml(file: str):
     gateway = get_out(file, 0)
     return file[1:gateway], file[gateway+1:]
 
-def clean_toml(toml: str):
+
+def clean_toml(toml: str) -> str:
     """
     ENTRÉE: Un document TOML tel quel
     SORTIE: Le même document mais sans aucun caractère inutile
@@ -62,7 +65,8 @@ def clean_toml(toml: str):
 
     return toml
 
-def split_toml_tags(toml: str):
+
+def split_toml_tags(toml: str) -> dict:
     """
     ENTRÉE: Un document TOML nettoyé
     SORTIE: Un dictionnaire représentant ce toml en données python
@@ -80,14 +84,15 @@ def split_toml_tags(toml: str):
             index = -1
         index += 1
     tomlist.append(toml)
-    
+
     dictio = {}
     for x in tomlist:
         parsed = parse_toml_tag(x)
         dictio[parsed[0]] = parsed[1]
     return dictio
 
-def parse_toml_tag(tag: str):
+
+def parse_toml_tag(tag: str) -> tuple[str, dict]:
     """
     ENTRÉE: Un texte représentant une balise TOML et son contenu
     SORTIE: Le titre et le contenu de ladite balise
@@ -117,6 +122,7 @@ def parse_toml_tag(tag: str):
         nom, var = x.split("=", 1)
         dico_variables[nom] = interpret_variable(var)
     return titre, dico_variables
+
 
 def interpret_variable(var: str):
     """
@@ -217,17 +223,19 @@ def interpret_variable(var: str):
             raise Exception("INVALID (or not implemented) TOML SYNTAX")
 
 
-def parse_toml(file, find=True):
+def parse_toml(toml: str) -> dict:
+    return split_toml_tags(clean_toml(toml))
+
+
+def find_and_parse_toml(file) -> tuple[dict, str]:
     """
     ENTRÉE: Un string contenant du TOML entre {}
     SORTIE: Un dictionnaire représentant la version parsée du TOML
     FONCTION: Fonction wrapper utilisée pour une importation facile dans d'autres scripts
     """
-    if find:
-        toml_part, html_part = find_toml(file)
-        return split_toml_tags(clean_toml(toml_part)), html_part
-    else:
-        return split_toml_tags(clean_toml(file)), ""
+    toml_part, html_part = find_toml(file)
+    return parse_toml(toml_part), html_part
+
 
 if __name__ == "__main__":
     data1 = """{
@@ -255,24 +263,26 @@ if __name__ == "__main__":
     ip = "10.0.0.2"
     role = "backend"
     }"""
+
     data2 = r"""{
     # Ceci est un commentaire TOML
-    
+
     # Ceci est un commentaire
     # TOML multi-ligne
     str1 = "Je suis une chaîne de caractères."
     str2 = "Vous pouvez me \"citer\"."
     str3 = "Name\tJos\u00E9\nLoc\tSF."
-    
+
     str3 = "The quick brown fox jumps over the lazy dog."
-    
+
     path = 'C:\Users\nodejs\templates'
     path2 = '\\User\admin$\system32'
     quoted = 'Tom "Dubs" Preston-Werner'
     regex = '<\i\c*\s*>'
-    
+
     re = 'I [dw]on't need \d{2} apples'
     }"""
+
     data3 = """{
     # les entiers
     int1 = +99
@@ -318,6 +328,7 @@ if __name__ == "__main__":
     not2 = +nan
     not3 = -nan
     }"""
+
     data4 = """{
     # date-heure avec décalage
     odt1 = 1979-05-27T07:32:00Z
@@ -338,7 +349,7 @@ if __name__ == "__main__":
     }"""
 
 
-    print("Général:\n" + str(parse_toml(data1)) + "\n")
-    print("Chaînes:\n" + str(parse_toml(data2)))
-    print("Nombres:\n" + str(parse_toml(data3)) + "\n")
-    print("Spéciaux:\n" + str(parse_toml(data4)) + "\n")
+    print("Général:\n" + str(find_and_parse_toml(data1)) + "\n")
+    print("Chaînes:\n" + str(find_and_parse_toml(data2)))
+    print("Nombres:\n" + str(find_and_parse_toml(data3)) + "\n")
+    print("Spéciaux:\n" + str(find_and_parse_toml(data4)) + "\n")

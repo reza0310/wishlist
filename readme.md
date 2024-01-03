@@ -9,7 +9,7 @@
 ├─ scripts/         : Tools scripts
 |  ├─ db/           : Database maintenance scripts
 |  └─ htmlgen/      : HTML generator scripts
-└─ web/             : The Wishlist website source code
+└─ www/             : The Wishlist website source code
    ├─ src/          : TypeScript source code
    ├─ templates/    : HTML templates files
    └─ assets/       : Website static assets

@@ -1,7 +1,19 @@
 const path = require('path');
 
+const src = "./private_ts";
+
+pages = [
+    "main.ts",
+    "test.ts"
+];
+
+var entries = {};
+for (let page of pages) {
+    entries[path.basename(page, ".ts")] = path.resolve(src, page);
+}
+
 module.exports = {
-    entry: './src/index.ts',
+    entry: entries,
     module: {
         rules: [
             {
@@ -15,13 +27,13 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].js',
+        path: path.resolve(__dirname, 'public'),
     },
     devtool: 'inline-source-map',
     mode: 'development',
     devServer: {
-        static: ['./dist', '../html/dist', '../assets'],
+        static: ['./public', '../cdn/public'],
         client: {
             progress: true,
         },

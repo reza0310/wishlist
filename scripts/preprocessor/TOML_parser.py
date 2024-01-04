@@ -224,13 +224,18 @@ def interpret_variable(var: str):
 
 
 def parse_toml(toml: str) -> dict:
+    """
+    ENTRÉE: Un string de TOML
+    SORTIE: Un dictionnaire représentant la version parsée du TOML
+    FONCTION: Fonction wrapper utilisée pour une importation facile dans d'autres scripts
+    """
     return split_toml_tags(clean_toml(toml))
 
 
-def find_and_parse_toml(file) -> tuple[dict, str]:
+def find_and_parse_toml(file: str) -> tuple[dict, str]:
     """
     ENTRÉE: Un string contenant du TOML entre {}
-    SORTIE: Un dictionnaire représentant la version parsée du TOML
+    SORTIE: Un dictionnaire représentant la version parsée du TOML et le reste du fichier séparé
     FONCTION: Fonction wrapper utilisée pour une importation facile dans d'autres scripts
     """
     toml_part, html_part = find_toml(file)

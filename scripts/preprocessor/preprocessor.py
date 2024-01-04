@@ -160,18 +160,20 @@ def delete_trailing_spaces(content: str) -> str:
     return result
 
 
+def preprocess(input_filename: str, output_filename: str):
+    preprocessor = Preprocessor()
+    preprocessed = preprocessor.preprocess_file(input_filename)
+    with open(output_filename, 'w', encoding="utf8") as output_file:
+        preprocessed = delete_trailing_spaces(preprocessed)
+        output_file.write(preprocessed)
+
+
 def do_preprocessing(args, input_filename: str, output_filename: str) -> bool:
         if os.path.exists(output_filename) and not args.override:
             error("Destination file '%s' already exists and flag '-y' is not specified" % output_filename)
             return False
         print("Preprocessing file '%s'" % input_filename)
-
-        preprocessor = Preprocessor()
-        preprocessed = preprocessor.preprocess_file(input_filename)
-        with open(output_filename, 'w', encoding="utf8") as output_file:
-            preprocessed = delete_trailing_spaces(preprocessed)
-            output_file.write(preprocessed)
-
+        preprocess(input_filename, output_filename)
         return True
 
 

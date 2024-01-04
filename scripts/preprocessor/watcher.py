@@ -3,6 +3,8 @@ import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
+from preprocessor import preprocess
+
 
 class MyHandler(FileSystemEventHandler):
     def on_modified(self, event):

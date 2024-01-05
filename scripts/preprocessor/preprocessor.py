@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# This import is required to use the venv
+import executor
+
 import argparse
 import os
 import sys
@@ -162,9 +165,14 @@ class Preprocessor:
         config = toml["config"] if "config" in toml else {}
         using = config["using"] if "using" in config else []
 
-        vars = toml["variables"] if "variables" in toml else {}
-        for key, value in vars.items():
+        variables = toml["variables"] if "variables" in toml else {}
+        for key, value in variables.items():
             self.variables[key] = value
+
+        defaults = toml["defaults"] if "defaults" in toml else {}
+        for key, value in defaults.items():
+            if key not in self.variables:
+                self.variables[key] = value
 
         preprocessed = self.parse()
 
@@ -203,6 +211,9 @@ def preprocess(input_filename: str, output_filename: str, include_paths: list[st
     """
     preprocessor = Preprocessor(include_paths)
     preprocessed, deps = preprocessor.preprocess_file(input_filename)
+    output_dir = os.path.dirname(output_filename)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir, exist_ok=True)
     with open(output_filename, 'w', encoding="utf8") as output_file:
         preprocessed = delete_trailing_spaces(preprocessed)
         output_file.write(preprocessed)
@@ -275,6 +286,7 @@ class App:
             watcher.watch(path, self.watch_cb)
 
         watcher.start()
+        print("Exiting gracefully")
 
     def watch_cb(self, event):
         if event.event_type == "modified":

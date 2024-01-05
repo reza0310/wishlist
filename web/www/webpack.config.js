@@ -33,7 +33,13 @@ module.exports = {
     devtool: 'inline-source-map',
     mode: 'development',
     devServer: {
-        static: ['./public', '../cdn/public'],
+        static: [{
+            directory: './public',
+            watch: true,
+        },{
+            directory: '../cdn/public',
+            watch: true,
+        }],
         client: {
             progress: true,
         },

@@ -37,7 +37,7 @@ def find_toml(file: str) -> tuple[str, str]:
     ENTRÉE: Un document HTML contenant une balise TOML d'entête
     SORTIE: Le TOML d'entête
     """
-    if file[0] != "{":
+    if len(file) == 0 or file[0] != "{":
         raise Exception("INVALID SYNTAX")
     gateway = get_out(file, 0)
     return file[1:gateway], file[gateway+1:]

@@ -2,11 +2,11 @@
   "name": "web",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "private_ts/main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
-    "start": "webpack serve --open",
+    "serve": "webpack serve --open",
     "build": "webpack"
   },
   "author": "",

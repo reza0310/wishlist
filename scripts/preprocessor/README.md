@@ -3,7 +3,7 @@
 ## Le TOML
 Chacun de nos fichiers HTML que l'on souhaite compiler doit commencer par du TOML valide entre accolades {}.
 Ce TOML devra contenir obligatoirement contenir trois balises: local, global et default. De ce fait, si vous ne voulez pas d'information dans votre TOML, faites comme ceci:
-{<br>[local]<br>[global]<br>[default]<br>}
+<br>{<br>[local]<br>[global]<br>[default]<br>}<br>
 Toute autre balise que ces trois là sera ignorée. Les variables, variables spéciales et autres définies dans local ne seront valables que pour ce fichier là. Les variables, variables spéciales et autres définies dans global seront transmises à tout fichier chargé après le fichier actuel. Les variables, variables spéciales et autres définies dans default ne seront accessibles que dans ce fichier là à la condition qu'elle ne soit définie nulle part ailleurs. Les compilations de fichier sont indépendantes les unes des autres. De ce fait, si un fichier utilise par exemple un header, ses variables globales seront transmises. Dusse un fichier définir une variable globale déjà définie, elle sera redéfinie.
 Les variables locales sont prioritaires sur leurs éponymes globales qui sont elles-mêmes prioritaires sur leurs éponymes par défaut.
 

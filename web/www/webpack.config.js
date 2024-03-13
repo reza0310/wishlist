@@ -3,8 +3,8 @@ const path = require('path');
 const src = "./private_ts";
 
 pages = [
-    "main.ts",
-    "test.ts"
+    "dashboard.ts",
+    "wishlist.ts"
 ];
 
 var entries = {};
@@ -39,6 +39,7 @@ module.exports = {
         },{
             directory: '../cdn/public',
             watch: true,
+            publicPath: '/assets',
         }],
         client: {
             progress: true,

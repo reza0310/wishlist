@@ -1,0 +1,254 @@
+input[type=text], input[type=password], input[type=email], input[type=number], input[type=url] {
+    border-radius: 4px;
+    border: 2px solid gray;
+    box-sizing: border-box;
+    padding: 0.5em 0.8em;
+}
+
+input[type=button], input[type=submit] {
+    border-radius: 4px;
+    border: none;
+    text-decoration: none;
+    margin: 1.2em auto;
+    padding: 0.5em 0.8em;
+    position: inherit;
+    background-color: #4CAF50;
+    cursor: pointer;
+}
+
+input {
+    display: block;
+    margin: 0 auto;
+}
+
+button {
+    background-color: #bfeff5;
+    width: 500px;
+    margin-top: 10px;
+    font-size: 30px;
+    border: 2px solid #000;
+    height: 75px;
+    border-radius: 40px;
+}
+
+h1 {
+    font-size: 1.6rem;
+    padding: 0.8rem 0;
+    display: block;
+    border: 3px solid #000;
+}
+
+h2 {
+    height: 17%;
+    text-align: center;
+    font-size: 1.3rem;
+    width: 50%;
+    margin: 2% auto;
+    border: 5px solid #000;
+}
+
+h4 {
+    text-decoration: underline;
+}
+
+p {
+    font-size: 25px;
+}
+
+body {
+    padding: 0;
+    background-color: #bfeff5;
+    text-align: center;
+    margin: 0;
+}
+
+input[type=submit].ticket_btn {
+    height: 100%;
+    padding: 0;
+    width: 100%;
+    margin: 0;
+}
+
+.active {
+    color: #000;
+    background-color: #7babb1;
+}
+
+.activehover {
+    background-color: #7babb1;
+}
+
+.credit {
+    bottom: 0;
+    width: 100%;
+    position: fixed;
+    margin: auto;
+}
+
+.content {
+    top: 3rem;
+    left: 0;
+    margin: 0;
+    bottom: 0;
+    position: fixed;
+    padding: 0;
+    overflow: auto;
+    right: 0;
+}
+
+.category_title {
+    display: block;
+    margin: 1% 5%;
+    height: 1.5rem;
+}
+
+.category_body {
+    margin: 0 5%;
+    grid-template-columns: repeat(auto-fill,minmax(20rem,1fr));
+    display: grid;
+}
+
+.ticket {
+    display: block;
+    margin: 1em;
+    max-height: 50vmin;
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    border: 3px solid black;
+}
+
+.ticket_padding {
+    padding-bottom: 2.5em;
+}
+
+.ticket_main {
+    width: 100%;
+    position: relative;
+    height: 100%;
+}
+
+.ticket_image {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.ticket_txt {
+    bottom: 0;
+    background-color: rgba(210,240,230,0.4);
+    position: absolute;
+    backdrop-filter: blur(7px);
+    color: black;
+    width: 100%;
+    border-top: 4px groove black;
+}
+
+.ticket_name {
+    font-size: xx-large;
+}
+
+.ticket_price {
+    font-size: x-large;
+}
+
+.ticket_actions {
+    display: flex;
+    bottom: 0;
+    flex-direction: row;
+    position: absolute;
+    width: 100%;
+    height: 2.5em;
+}
+
+.ticket_action {
+    margin: 4px;
+    flex-grow: 1;
+}
+
+.contacte {
+    padding: 0.2em;
+    font-size: 2.5em;
+    text-decoration: none;
+    color: black;
+    border: 8px solid black;
+}
+
+.center {
+    left: 50%;
+    margin: 0;
+    top: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.form {
+    display: inline-block;
+    min-width: 30em;
+    width: 60%;
+}
+
+.form_label {
+    white-space: nowrap;
+}
+
+.form_grow, .form_input {
+    width: 100%;
+}
+
+.barre {
+    height: 100%;
+    display: block;
+    text-decoration: none;
+    color: #bfeff5;
+    padding: 0 1rem;
+    line-height: 3rem;
+}
+
+.barrehover {
+    background-color: #111;
+}
+
+.shower {
+    z-index: 1000;
+    left: 0;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    height: 3rem;
+}
+
+.navbar {
+    z-index: 1000;
+    display: block;
+    margin: 0;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    padding: 0;
+    list-style-type: none;
+    width: 100%;
+    top: 0;
+    height: 3rem;
+}
+
+.vc {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.4em;
+}
+
+.hideshow_category {
+    height: inherit;
+    right: 6%;
+    position: absolute;
+}
+
+.innavbar {
+    height: 100%;
+    float: left;
+}
+
+.oinnavbar {
+    float: right;
+}

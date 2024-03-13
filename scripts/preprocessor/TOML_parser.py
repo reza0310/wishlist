@@ -153,6 +153,8 @@ def interpret_variable(var: str):
             print("Var is", var)
             raise Exception("SYNTAX ERROR: UNCLOSED LIST")
         else:
+            if var == "]":  # Empty list
+                return []
             res.append(interpret_variable(var[:-1]))
             return res
 

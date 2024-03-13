@@ -1,0 +1,28 @@
+{
+[local]
+css = "%css%"
+
+[global]
+basedir = ""
+
+[default]
+subtitle = "base"
+desc = "Ceci est une description qu'un trou du cul a oublié de remplacer"
+}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>PEVI - %subtitle%</title>
+		%css%
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="%desc%">
+	</head>
+	<body>
+		%barre%
+		<section class="content">
+		%content%
+		</section>
+		%footer.html%
+	</body>
+</html>

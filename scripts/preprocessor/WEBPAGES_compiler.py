@@ -11,21 +11,6 @@ import sys
 from TOML_parser import parse_toml, find_and_parse_toml
 
 
-# ---------- CONFIGURATION IMPORTING AND VERIFICATION ----------
-if (len(sys.argv) > 1):
-    config_file = sys.argv[1]
-else:
-    config_file = "../../configs/preprocessor_config.toml"
-with open(config_file, "r") as f:
-    config = parse_toml(f.read())["HTML_COMPILER"]
-assert os.path.isdir(config["input_root"]), "CONFIGURATION ERROR: input root isn't a valid directory"
-assert os.path.isdir(config["output_root"]), "CONFIGURATION ERROR: output root isn't a valid existing directory"
-assert type(config["html_output_filename"]) == str, "CONFIGURATION ERROR: output filename must be a string"
-assert type(config["name_white_or_black_list"]) == bool, "CONFIGURATION ERROR: name list boolean must be boolean"
-assert type(config["name_list"]) == type(config["folder_names_blacklist"]) == list, "CONFIGURATION ERROR: lists must be lists"
-assert type(config["default_list_separator"]) == str, "CONFIGURATION ERROR: separator must be a string"
-
-
 # ---------- CLASSES ----------
 class Tree():
     def __init__(self, name: str):
@@ -91,7 +76,7 @@ def priority_process(searched: str, toml: dict, variables: dict) -> str:
     elif searched in toml["default"].keys():
         return toml["default"][searched]
     else:
-        return searched
+        raise Exception("HTML parsing: Variable "+searched+" not found.")
 
 
 def process_file(filepath: str) -> str:
@@ -100,12 +85,20 @@ def process_file(filepath: str) -> str:
     ENTRÉE: Le path du fichier à compiler.
     SORTIE: Le fichier compilé si possible, None si il y a erreur.
     """
-    oldpwd = os.getcwd()
+    oldpwd = os.getcwd()  # On choppe le cwd pour le reset car process_file_recur le modifie
+
     resultat, _ = process_file_recur(filepath, {}, Tree(filepath))
     if resultat == None:
         raise Exception("HTML parsing: infinite recursion detected")
+
     os.chdir(oldpwd)
-    return resultat
+
+    with open(filepath, "r") as file:
+        toml, _ = find_and_parse_toml(file.read())
+    if "output_name" not in toml["config"].keys() or type(toml["config"]["output_name"]) != str:
+        raise Exception("HTML parsing: invalid output name")
+
+    return toml["config"]["output_name"], resultat
 
 
 def process_file_recur(filepath: str, variables: dict, node: Tree) -> tuple[str, dict]:
@@ -120,6 +113,11 @@ def process_file_recur(filepath: str, variables: dict, node: Tree) -> tuple[str,
     if html[0] == "\n":  # Le fait de virer le TOML fait ressortir de saut de ligne qui le sépare du HTML.
         html = html[1:]
 
+    # On vérif le TOML
+    if not ("local" in toml.keys() and "global" in toml.keys() and "default" in toml.keys() and "config" in toml.keys() and \
+            "containers" in toml["config"].keys() and "output_name" in toml["config"].keys()):
+        raise Exception("HTML parsing: invalid TOML in file "+filepath)
+
     # On set le cwd au dossier du filepath
     dir_path = filepath.replace(filepath.split("/")[-1], "")
     if dir_path:
@@ -129,9 +127,9 @@ def process_file_recur(filepath: str, variables: dict, node: Tree) -> tuple[str,
     variables.update(toml["global"])
     
     # Containers processing
-    parents = priority_process("containers", toml, variables)
+    parents = toml["config"]["containers"]
     parent_nodes = []
-    if parents != "containers":
+    if parents:  # Might be None, can be [], could be "" if an imbecile made the toml
         for x in parents:
             parent_nodes.append(Tree(x))
             # Add containers to parents
@@ -163,7 +161,8 @@ def process_file_recur(filepath: str, variables: dict, node: Tree) -> tuple[str,
                 var = html[var_start:i]
                 if var != "css" and var != "content":
                     replacement = priority_process(var, toml, variables)
-                    if type(replacement) == str and os.path.isfile(replacement):
+                    if type(replacement) == str and len(replacement) >= 2 and replacement[0] == "!":
+                        replacement = replacement[1:]
                         subnode = Tree(replacement)
                         # Add self as their parent
                         subnode.fathers.add(node)
@@ -177,9 +176,13 @@ def process_file_recur(filepath: str, variables: dict, node: Tree) -> tuple[str,
                         else:
                             node.print()
                             return None, variables
-                    elif type(replacement) == list:
-                        separator = priority_process("separator", toml, variables)
-                        separator = separator if separator != "separator" else config["default_list_separator"]
+                    elif type(replacement) == list or type(replacement) == dict:
+                        separator = configs[config]["default_list_separator"]
+                        if type(replacement) == dict and \
+                        "content" in replacement.keys() and type(replacement["content"]) == list and \
+                        "separator" in replacement.keys() and type(replacement["separator"]) == str :
+                            separator = replacement["separator"]
+                            replacement = replacement["content"]
                         replacement = separator.join(replacement)
                     # Place the resulting text at the right place
                     outhtml += replacement
@@ -190,21 +193,37 @@ def process_file_recur(filepath: str, variables: dict, node: Tree) -> tuple[str,
     return outhtml, variables
 
 
-# ---------- INIT ----------
-pile = [config["input_root"]+"/"+x for x in os.listdir(config["input_root"])]
-
-
-# ---------- MAIN LOOP ----------
 if __name__ == "__main__":
-    while pile:
-        element = pile.pop(0)
-        if os.path.isdir(element) and element not in config["folder_names_blacklist"]:
-            # On explore le dossier
-            pile += [element+"/"+x for x in os.listdir(element)]
-            os.mkdir(element.replace(config["input_root"], config["output_root"]))
-        else:
-            if (config["name_white_or_black_list"] and element.split("/")[-1] in config["name_list"]) or (element.split("/")[-1] not in config["name_list"]):  # (Whitelist) or (Blacklist)
-                # On process le fichier
-                filename = element.replace(config["input_root"], config["output_root"]).replace(element.split("/")[-1], config["html_output_filename"])
-                with open(filename, "w+") as file:
-                    file.write(process_file(element))
+    # ---------- CONFIGURATIONS IMPORTING ----------
+    if (len(sys.argv) > 1):
+        config_file = sys.argv[1]
+    else:
+        config_file = "../../configs/preprocessor_config.toml"
+    with open(config_file, "r") as f:
+        configs = parse_toml(f.read())
+    
+    for config in configs.keys():
+        # ---------- CONFIGURATION VERIFICATION ----------
+        assert os.path.isdir("../../web/"+config.lower()+"/private_html"), "CONFIGURATION ERROR: input root isn't a valid directory"
+        assert os.path.isdir("../../web/"+config.lower()+"/public"), "CONFIGURATION ERROR: output root isn't a valid existing directory"
+        assert type(configs[config]["name_white_or_black_list"]) == bool, "CONFIGURATION ERROR: name list boolean must be boolean"
+        assert type(configs[config]["name_list"]) == type(configs[config]["folder_names_blacklist"]) == list, "CONFIGURATION ERROR: lists must be lists"
+        assert type(configs[config]["default_list_separator"]) == str, "CONFIGURATION ERROR: separator must be a string"
+
+        # ---------- INIT ----------
+        pile = ["../../web/"+config.lower()+"/private_html"+"/"+x for x in os.listdir("../../web/"+config.lower()+"/private_html")]
+
+        # ---------- MAIN LOOP ----------
+        while pile:
+            element = pile.pop(0)
+            if os.path.isdir(element) and element not in configs[config]["folder_names_blacklist"]:
+                # On explore le dossier
+                pile += [element+"/"+x for x in os.listdir(element)]
+                os.mkdir(element.replace("../../web/"+config.lower()+"/private_html", "../../web/"+config.lower()+"/public"))
+            else:
+                if (configs[config]["name_white_or_black_list"] and element.split("/")[-1] in configs[config]["name_list"]) or (element.split("/")[-1] not in configs[config]["name_list"]):  # (Whitelist) or (Blacklist)
+                    # On process le fichier
+                    name, content = process_file(element)
+                    filename = element.replace("../../web/"+config.lower()+"/private_html", "../../web/"+config.lower()+"/public").replace(element.split("/")[-1], name)
+                    with open(filename, "w+") as file:
+                        file.write(content)

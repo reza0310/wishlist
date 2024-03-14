@@ -1,13 +1,18 @@
 {
 [local]
-css = "%css%"
 
 [global]
-basedir = ""
 
 [default]
+basedir = ""
 subtitle = "base"
 desc = "Ceci est une description qu'un trou du cul a oublié de remplacer"
+barre = "VOUS AVEZ OUBLIÉ LA BARRE"
+footer = "VOUS AVEZ OUBLIÉ LE FOOTER"
+
+[config]
+containers = []
+output_name = "error.html"
 }
 <!DOCTYPE html>
 <html>
@@ -23,6 +28,6 @@ desc = "Ceci est une description qu'un trou du cul a oublié de remplacer"
 		<section class="content">
 		%content%
 		</section>
-		%footer.html%
+		%footer%
 	</body>
 </html>

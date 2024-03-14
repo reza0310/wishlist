@@ -1,11 +1,6 @@
-[HTML_COMPILER]
-input_root = "../../web/www/private_html"  # Relative path for the directory which is gonna be explored
-output_root = "../../web/www/public_html"  # Empty directory which is gonna get set to a compiled mirror of the input directory
-html_output_filename = "index.html"
+[WWW]
 name_white_or_black_list = true  # True for whitelist, false for blacklist.
 name_list = ["index.html"]
 folder_names_blacklist = []  # Folders to not explore no matter what
 default_list_separator = ", "  # Default separator when parsing toml lists if none are precised
-
-[CSS_COMPILER]
 css_file = "../../shared/css/style.css"

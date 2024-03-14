@@ -1,19 +1,24 @@
 {
 [local]
-containers = ["../../../shared/header.html"]
 devs = ["reza0310", "kolte200"]
-testeurs = ["reza0310", "kolte200", "Nath2000"]
-separator = " et "
+testeurs = {content=["reza0310", "kolte200", "Nath2000", "Chachoune963"], separator=" et "}
 
 [global]
-barre = "barre.html"
+basedir = ""
+barre = "!barre.html"
 uno = "active "
 dos = ""
 tres = ""
 quatro = ""
 cinque = ""
+footer = "!footer.html"
 
 [default]
+containers = "moncul"
+
+[config]
+containers = ["../../../shared/header.html"]
+output_name = "index.html"
 
 [trash]  # Juste pour tester, comme ce commentaire ;)
 }

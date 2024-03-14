@@ -13,17 +13,6 @@ import sys
 from TOML_parser import parse_toml, find_and_parse_toml
 
 
-# ---------- CONFIGURATION IMPORTING AND VERIFICATION ----------
-if (len(sys.argv) > 1):
-    config_file = sys.argv[1]
-else:
-    config_file = "../../configs/preprocessor_config.toml"
-with open(config_file, "r") as f:
-    config = parse_toml(f.read())
-assert os.path.isdir(config["HTML_COMPILER"]["output_root"]), "CONFIGURATION ERROR: HTML output root isn't a valid directory"
-assert os.path.isfile(config["CSS_COMPILER"]["css_file"]), "CONFIGURATION ERROR: stylesheet invalid"
-
-
 # ---------- CLASSES ----------
 class DictWithUnhashableAsKey():
     def __init__(self, frome=None):  # Exécuté par "a = DictWithUnhashableAsKey()"
@@ -90,6 +79,7 @@ class DictWithUnhashableAsKey_ITERATOR():  # Iterateur pour intérer sur un Dict
             out = self.keys[self.index], self.values[self.index]
             index += 1
             return out
+
 
 # ---------- FUNCTIONS ----------
 def string_is_same(big_string: str, subindex: int, searched: str) -> int:
@@ -303,29 +293,38 @@ def sheet_css(dict_balises: dict[str, set], dict_ids: dict[str, set], dict_class
     return output[:-1]
 
 
-# ---------- MAIN LOOP ----------
-pile_d_exploration = [config["HTML_COMPILER"]["output_root"]]
-
-
-# ---------- MAIN LOOP ----------
 if __name__ == "__main__":
-    stylesheet = load_css(config["CSS_COMPILER"]["css_file"])
-    while pile_d_exploration:
-        element = pile_d_exploration.pop(0)
-        if os.path.isdir(element):
-            # On explore le dossier
-            pile_d_exploration += [element+"/"+x for x in os.listdir(element)]
-        else:
-            # On process le fichier
-            comparaison = load_html(element)
-            authorized_shit = ({},{},{})
-            for shit_index in range(len(stylesheet)):
-                for key_shit in stylesheet[shit_index].keys():
-                    if key_shit in comparaison[shit_index]:
-                        authorized_shit[shit_index][key_shit] = stylesheet[shit_index][key_shit]
-            made_up_sheet = "<style>\n"+sheet_css(*authorized_shit)+"</style>"
-            with open(element, "r") as file:
-                data = file.read()
-            data = data.replace("%css%", made_up_sheet, 1)
-            with open(element, "w") as file:
-                file.write(data)  # Ne devrait pas poser de pb de mix nouveau / ancien dans la mesure ou len(nouveau) > len(ancien) et qu'on append pas
+    # ---------- CONFIGURATION IMPORTING AND VERIFICATION ----------
+    if (len(sys.argv) > 1):
+        config_file = sys.argv[1]
+    else:
+        config_file = "../../configs/preprocessor_config.toml"
+    with open(config_file, "r") as f:
+        configs = parse_toml(f.read())
+    
+    for config in configs.keys():
+        assert os.path.isdir("../../web/"+config.lower()+"/public"), "CONFIGURATION ERROR: HTML output root isn't a valid directory"
+        assert os.path.isfile(configs[config]["css_file"]), "CONFIGURATION ERROR: stylesheet invalid"
+
+        # ---------- MAIN LOOP ----------
+        pile_d_exploration = ["../../web/"+config.lower()+"/public"]
+        stylesheet = load_css(configs[config]["css_file"])
+        while pile_d_exploration:
+            element = pile_d_exploration.pop(0)
+            if os.path.isdir(element):
+                # On explore le dossier
+                pile_d_exploration += [element+"/"+x for x in os.listdir(element)]
+            else:
+                # On process le fichier
+                comparaison = load_html(element)
+                authorized_shit = ({},{},{})
+                for shit_index in range(len(stylesheet)):
+                    for key_shit in stylesheet[shit_index].keys():
+                        if key_shit in comparaison[shit_index]:
+                            authorized_shit[shit_index][key_shit] = stylesheet[shit_index][key_shit]
+                made_up_sheet = "<style>\n"+sheet_css(*authorized_shit)+"</style>"
+                with open(element, "r") as file:
+                    data = file.read()
+                data = data.replace("%css%", made_up_sheet, 1)
+                with open(element, "w") as file:
+                    file.write(data)  # Ne devrait pas poser de pb de mix nouveau / ancien dans la mesure ou len(nouveau) > len(ancien) et qu'on append pas

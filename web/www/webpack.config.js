@@ -3,8 +3,7 @@ const path = require('path');
 const src = "./private_ts";
 
 pages = [
-    "dashboard.ts",
-    "wishlist.ts"
+    "test.ts"
 ];
 
 var entries = {};

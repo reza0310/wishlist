@@ -1,5 +1,0 @@
-class API {
-    public constructor() {
-        
-    }
-}

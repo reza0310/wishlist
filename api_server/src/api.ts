@@ -1,5 +1,10 @@
 import * as http from 'http';
 
+const HEADERS = {'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+				'Access-Control-Allow-Headers': '*'}
+
 export class APIRequest {
     req: http.IncomingMessage;
     url: URL;
@@ -20,7 +25,7 @@ export class APIResponse {
     }
 
     public send(data: any, code: number = 200) {
-        this.rep.writeHead(code, {'Content-Type': 'application/json'});
+        this.rep.writeHead(code, HEADERS);
         this.rep.write(JSON.stringify(data));
         this.rep.end();
     }
@@ -47,8 +52,9 @@ export class API {
         let method = req.method;
         let paths = this.endpoints.get(method!.toUpperCase());
         let cb = (paths !== undefined) ? paths.get(url.pathname) : undefined;
+		console.log("Received request "+url.pathname)
         if (cb === undefined) {
-            rep.writeHead(404, {'Content-Type': 'application/json'});
+            rep.writeHead(404, HEADERS);
             rep.write(JSON.stringify({"error": "unknown endpoint"}));
             rep.end();
             return;
@@ -71,7 +77,7 @@ export class API {
                     this.handle_request(req, rep, data);
                 } catch (error) {
                     console.warn(error);
-                    rep.writeHead(400, {'Content-Type': 'application/json'});
+                    rep.writeHead(400, HEADERS);
                     rep.write(JSON.stringify({"error": "failed to parse json body"}));
                     rep.end();
                 }
@@ -87,10 +93,12 @@ export class API {
     }
 
     public get(path: string, cb: APICallback) {
+        this.on("OPTIONS", path, cb);
         this.on("GET", path, cb);
     }
 
     public post(path: string, cb: APICallback) {
+        this.on("OPTIONS", path, cb);
         this.on("POST", path, cb);
     }
 

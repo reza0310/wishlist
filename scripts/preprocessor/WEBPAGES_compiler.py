@@ -201,17 +201,19 @@ if __name__ == "__main__":
         config_file = "../../configs/preprocessor_config.toml"
     with open(config_file, "r") as f:
         configs = parse_toml(f.read())
-    
+
     for config in configs.keys():
+        # ---------- INIT ----------
+        INPATH = "../../web/"+config.lower()+"/private_html"
+        OUTPATH = "../../web/"+config.lower()+"/public"
+        pile = [INPATH+"/"+x for x in os.listdir(INPATH)]
+
         # ---------- CONFIGURATION VERIFICATION ----------
-        assert os.path.isdir("../../web/"+config.lower()+"/private_html"), "CONFIGURATION ERROR: input root isn't a valid directory"
-        assert os.path.isdir("../../web/"+config.lower()+"/public"), "CONFIGURATION ERROR: output root isn't a valid existing directory"
+        assert os.path.isdir(INPATH), "CONFIGURATION ERROR: input root isn't a valid directory"
+        assert os.path.isdir(OUTPATH), "CONFIGURATION ERROR: output root isn't a valid existing directory"
         assert type(configs[config]["name_white_or_black_list"]) == bool, "CONFIGURATION ERROR: name list boolean must be boolean"
         assert type(configs[config]["name_list"]) == type(configs[config]["folder_names_blacklist"]) == list, "CONFIGURATION ERROR: lists must be lists"
         assert type(configs[config]["default_list_separator"]) == str, "CONFIGURATION ERROR: separator must be a string"
-
-        # ---------- INIT ----------
-        pile = ["../../web/"+config.lower()+"/private_html"+"/"+x for x in os.listdir("../../web/"+config.lower()+"/private_html")]
 
         # ---------- MAIN LOOP ----------
         while pile:
@@ -219,11 +221,12 @@ if __name__ == "__main__":
             if os.path.isdir(element) and element not in configs[config]["folder_names_blacklist"]:
                 # On explore le dossier
                 pile += [element+"/"+x for x in os.listdir(element)]
-                os.mkdir(element.replace("../../web/"+config.lower()+"/private_html", "../../web/"+config.lower()+"/public"))
+                if not os.path.isdir(element.replace(INPATH, OUTPATH)):
+                    os.mkdir(element.replace(INPATH, OUTPATH))
             else:
                 if (configs[config]["name_white_or_black_list"] and element.split("/")[-1] in configs[config]["name_list"]) or (element.split("/")[-1] not in configs[config]["name_list"]):  # (Whitelist) or (Blacklist)
                     # On process le fichier
                     name, content = process_file(element)
-                    filename = element.replace("../../web/"+config.lower()+"/private_html", "../../web/"+config.lower()+"/public").replace(element.split("/")[-1], name)
+                    filename = element.replace(INPATH, OUTPATH).replace(element.split("/")[-1], name)
                     with open(filename, "w+") as file:
                         file.write(content)

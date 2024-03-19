@@ -1,24 +1,23 @@
 import * as mariadb from 'mariadb';
 
 const pool = mariadb.createPool({
-     host: '127.0.0.1',
-     user:'root',
-     password: 'root',
-     connectionLimit: 20
+	host: '127.0.0.1',
+	user:'root',
+	password: 'root',
+	database: "wishlist",
+	connectionLimit: 100
 });
 
-async function asyncFunction() {
-  let conn;
-  try {
-	conn = await pool.getConnection();
-	const rows = await conn.query("SELECT 1 as val");
-	console.log(rows); //[ {val: 1}, meta: ... ]
-	const res = await conn.query("INSERT INTO myTable value (?, ?)", [1, "mariadb"]);
-	console.log(res); // { affectedRows: 1, insertId: 1, warningStatus: 0 }
-
-  } catch (err) {
-	throw err;
-  } finally {
-	if (conn) return conn.end();
-  }
+export async function query(query: string, args: any[]) {
+	let conn;
+	let res;
+  
+	conn = await pool.getConnection();  // Si erreur de co on veut qu'elle pop donc ça sert à rien de catch pour renvoyer
+	try {
+		res = await conn.query(query, args);
+	} catch (err: any) {
+		res = [err.sqlMessage!];
+	}
+	if (conn) conn.end();
+	return res;
 }

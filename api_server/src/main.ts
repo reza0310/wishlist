@@ -1,16 +1,36 @@
+import * as bcrypt from 'bcrypt';
+
 import * as api from './api';
+import * as db from './db';
 
-const port = 8081;
-const host = "127.0.0.1";
+const port: number = 8081;
+const host: string = "127.0.0.1";
 
-const server = new api.API(host, port);
+const server: api.API = new api.API(host, port);
 
-server.get("/version", (req, rep) => {
+server.get("/version", async (req: api.APIRequest, rep: api.APIResponse) => {
     rep.send({"version": "1.0.0"});
 });
 
-server.post("/ping", (req, rep) => {
+server.post("/ping", async (req: api.APIRequest, rep: api.APIResponse) => {
     rep.send({"data": req.data});
+});
+
+server.post("/register", async (req: api.APIRequest, rep: api.APIResponse) => {
+	var tmp;
+	if (req.data != null && (!("mail" in req.data) || !("nom" in req.data) || !("mdp" in req.data))) {
+		rep.send({"result": "INVALID REQUEST ERROR"});
+	} else {
+		tmp = await db.query("SELECT * FROM comptes WHERE nom=?", [req.data["nom"]])
+		if (tmp.toString() == [].toString()) {
+			const hash: string = await bcrypt.hash(req.data["mdp"], 10)
+			tmp = await db.query("INSERT INTO comptes (nom, mail, hash) VALUES (?, ?, ?)", [req.data["nom"], req.data["mail"], hash])
+			rep.send({"result": "ACCOUNT CREATION SUCCESS"});
+		} else {
+			console.log("Unable to create account ", tmp);
+			rep.send({"result": "ACCOUNT ALREADY EXISTS ERROR"});
+		}
+	}
 });
 
 server.run()

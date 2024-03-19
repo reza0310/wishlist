@@ -93,12 +93,12 @@ export class API {
     }
 
     public get(path: string, cb: APICallback) {
-        this.on("OPTIONS", path, cb);
+        this.on("OPTIONS", path, async (req: APIRequest, rep: APIResponse) => {rep.send({});});
         this.on("GET", path, cb);
     }
 
     public post(path: string, cb: APICallback) {
-        this.on("OPTIONS", path, cb);
+        this.on("OPTIONS", path, async (req: APIRequest, rep: APIResponse) => {rep.send({});});
         this.on("POST", path, cb);
     }
 

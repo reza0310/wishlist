@@ -2,6 +2,8 @@ import * as u from './utils';
 
 var ansmap: Map<XMLHttpRequest, string> = new Map<XMLHttpRequest, string>();
 
+type cb = (r: XMLHttpRequest) => Promise<void>;
+
 export function request(protocol: string, url: string, data: u.Dictionary<string>): XMLHttpRequest {
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(): void {
@@ -10,23 +12,43 @@ export function request(protocol: string, url: string, data: u.Dictionary<string
 				ansmap.set(this, this.responseText);
 			} else {
 				console.warn("HTTP ERROR");
-				ansmap.set(this, "HTTP ERROR");
+				ansmap.set(this, "HTTP ERROR "+this.status);
 			}
 		}
 	};
 	xhr.open(protocol, url);
 	xhr.setRequestHeader("Content-Type", "application/json");
-	xhr.send(JSON.stringify(data));
+	if (data instanceof FormData) {
+		xhr.send(u.form_to_json(data));
+	} else {
+		xhr.send(JSON.stringify(data));
+	}
 	return xhr;
 }
 
-export async function block_until_reception(id: XMLHttpRequest) {  // Jsp quel type de retour mettre
-	while (!ansmap.has(id)) {await u.delay(1);}
+export async function block_until_reception(id: XMLHttpRequest): Promise<void> {
+	while (id === undefined || !ansmap.has(id)) {await u.delay(1);}
 }
 
-export function receive(id: XMLHttpRequest): [boolean, string] {
+export function receive(id: XMLHttpRequest): [boolean, any] {
 	if (ansmap.has(id)) {
-		return [true, ansmap.get(id)!]
+		return [true, JSON.parse(ansmap.get(id)!)]
 	}
 	return [false, ""];
+}
+
+export async function receive_blocking(id: XMLHttpRequest): Promise<[boolean, any]> {
+	await block_until_reception(id);
+	return receive(id);
+}
+
+export async function request_form(protocol: string, url: string, form: HTMLFormElement, callback: cb): Promise<void> {
+	async function cbd(se: SubmitEvent): Promise<void> {
+		se.preventDefault();
+		console.log("FORM SUBMITTED");
+		var req: XMLHttpRequest = new (request as any)(protocol, url, new FormData(form));
+		form.reset();
+		await callback(req);
+	}
+	form.addEventListener("submit", async (se: SubmitEvent) => {await cbd(se);}, true);
 }

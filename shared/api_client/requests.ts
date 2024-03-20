@@ -30,22 +30,21 @@ export async function block_until_reception(id: XMLHttpRequest): Promise<void> {
 	while (id === undefined || !ansmap.has(id)) {await u.delay(1);}
 }
 
-export function receive(id: XMLHttpRequest): [boolean, any] {
+export function receive(id: XMLHttpRequest): [boolean, string] {
 	if (ansmap.has(id)) {
-		return [true, JSON.parse(ansmap.get(id)!)]
+		return [true, ansmap.get(id)!]
 	}
 	return [false, ""];
 }
 
-export async function receive_blocking(id: XMLHttpRequest): Promise<[boolean, any]> {
+export async function receive_blocking(id: XMLHttpRequest): Promise<string> {
 	await block_until_reception(id);
-	return receive(id);
+	return receive(id)[1];
 }
 
 export async function request_form(protocol: string, url: string, form: HTMLFormElement, callback: cb): Promise<void> {
 	async function cbd(se: SubmitEvent): Promise<void> {
 		se.preventDefault();
-		console.log("FORM SUBMITTED");
 		var req: XMLHttpRequest = new (request as any)(protocol, url, new FormData(form));
 		form.reset();
 		await callback(req);
